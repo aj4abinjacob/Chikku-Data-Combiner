@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chikku Data Combiner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav><h2>Chikku Data Combiner</h2><button class="nav-btn"></button></nav>
+    <main>
+        <!-- Input div starts here this is where the user submit file -->
+        <div class="input-screen">
+            <h2>Select your files</h2>
+            <ol class="file-list" >
+            </ol>
+            <div class="input-screen-buttons">
+                <button onclick="getFiles()">Add Files</button>
+            </div>
+        </div>
+
+        <!-- input div ends here -->
+        <div class="process-screen"></div>
+        <div class="output-screen"></div>
+    </main>
+    <footer><button class="footer-btn">Start Combining</button></footer>    
+    <script type="text/javascript" src="./script.js"></script>
+    <script type="text/javascript" src="/eel.js"></script>
+</body>
+</html>

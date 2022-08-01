@@ -1,0 +1,207 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/* A video explaining why box-sizing should be set to border-box */
+/* https://www.youtube.com/watch?v=WlGQdgy-M6w */
+
+/* Remove default margin */
+*{
+  margin: 0;
+  padding : 0;
+  /* font: inherit;   */
+  }
+  
+/* The font inherit property sets every font to have one size and one weight
+any heading tag would look the sane as a normal text, this forces the user to
+use css for everything.
+*/
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Poppins&display=swap');
+
+
+:root{
+    --header-margin:5%;
+    --default-margin:3%;
+    --header-font:'Montserrat', sans-serif;
+    --normal-font:'Poppins', sans-serif;
+    --bg-color:hsl(0, 0%, 11%);
+    --font-color:hsl(0, 0%, 100%);
+    --border-color:hsl(0, 0%, 52%);
+    --default-border-radius: 8px;
+    --submit-color:#3944F7;
+    --default-shadow:0px 8px 12px;
+    --nav-height:100px;
+    --delete-color:#E21717;
+    --submit-color:#3DBE29;
+}
+
+
+*{
+    color: var(--font-color);
+    font-family: var(--normal-font);
+}
+body{
+    background-color: hsl(0, 0%, 11%);
+    color: #fefefe;
+    flex-direction: column;
+    display: flex;
+}
+
+nav{
+    margin: var(--default-margin) var(--header-margin) 0 var(--header-margin);
+    height: var(--nav-height);
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
+
+nav > h2{
+    font-family: var(--header-font);
+    font-size: 2.4rem;
+}
+
+
+footer{
+    position: fixed;
+    bottom: 0;
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+
+.nav-btn{
+    display: none;
+}
+ 
+button{
+    background-color: var(--bg-color);
+    padding: .6rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--default-border-radius);
+    cursor: pointer;
+    /* font-weight: 600; */
+}
+
+.footer-btn{
+    display: none;
+    font-size: 1.1rem;
+    margin-right: var(--default-margin);
+}
+
+.footer-btn:hover{
+    border-color:var(--submit-color);
+    /* box-shadow: var(--submit-color) var(--default-shadow); */
+}
+
+/* Setting z index for process screen and output screen */
+/*  The default display state will be none */
+
+.process-screen{
+
+    z-index: 1;
+    display: none;
+}
+
+.output-screen{
+    z-index: 2;
+    display: none;
+}
+
+main{
+    flex-grow: 2;
+    margin-left: var(--default-margin);
+    margin-right: var(--default-margin);
+    display: flex;
+    justify-content: center;
+}
+
+/* input screen css start here */
+
+.input-screen{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--default-margin);
+
+}
+.file-list{
+    display: flex;
+    flex-direction: column;
+    gap:.5rem;
+}
+
+
+.input-screen-buttons button:hover{
+    border-color: 1px solid var(--submit-color);
+}
+
+.input-screen h2{
+    text-align: center;
+}
+.file-list > li {
+    border: 1px solid var(--border-color);
+    width: 40vw;
+    border-radius: var(--default-border-radius);
+    padding: .5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-list > li > button{
+    margin-left: 1rem;
+}
+
+.remove-btn:hover{
+    border: 1px solid var(--delete-color);
+}
+
+.file-list ol {
+    list-style: none;
+    counter-reset: item;
+  }
+.file-list li {
+    counter-increment: item;
+  }
+.file-list  li:before {
+    content: counter(item);
+    text-align: center;
+  }
+
+.file-name{
+    flex-grow: 3;
+}
+
+.file-name::before{
+    content:".";
+    margin-right: .4rem;
+}
+
