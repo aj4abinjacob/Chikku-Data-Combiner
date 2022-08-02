@@ -10,7 +10,9 @@ function columnsUpdate(){
     columns = Object.values(files_object);
     // p for previous element , c for current, e for element
     same_columns = columns.reduce((p,c)=>p.filter(e => c.includes(e))); 
-    unique_columns = columns.reduce((p,c)=>c.filter(e => !p.includes(e)))
+    unique_columns = new Set;
+    columns.forEach(arr=>{arr.forEach(el=>unique_columns.add(el))})
+
 }
 
 
@@ -38,8 +40,6 @@ function createFileName(file_name,cols){
     files_object[file_name] = cols;
     columnsUpdate();
     
-    console.log("unique",unique_columns);
-    console.log("same",same_columns);
 }
 
 async function getFiles() {
@@ -66,9 +66,56 @@ function nextProcess(el){
         document.getElementById("input-screen").style.display = "none"
         document.getElementById("combine-screen").style.display = "flex";
         // Auto complete
-       $(".input-columns").autocomplete({
-        source: same_columns
+
+        // Single Auto Complete
+       $(".output-column").autocomplete({
+        source: Array.from(unique_columns)
        })
+
+      // Multi Auto Complete
+       
+       $( function() {
+        var availableTags =  Array.from(unique_columns)
+         
+        function split( val ) {
+          return val.split( /,\s*/ );
+        }
+        function extractLast( term ) {
+          return split( term ).pop();
+        }
+     
+        $( ".input-columns" )
+          // don't navigate away from the field on tab when selecting an item
+          .on( "keydown", function( event ) {
+            if ( event.keyCode === $.ui.keyCode.TAB &&
+                $( this ).autocomplete( "instance" ).menu.active ) {
+              event.preventDefault();
+            }
+          })
+          .autocomplete({
+            minLength: 0,
+            source: function( request, response ) {
+              // delegate back to autocomplete, but extract the last term
+              response( $.ui.autocomplete.filter(
+                availableTags, extractLast( request.term ) ) );
+            },
+            focus: function() {
+              // prevent value inserted on focus
+              return false;
+            },
+            select: function( event, ui ) {
+              var terms = split( this.value );
+              // remove the current input
+              terms.pop();
+              // add the selected item
+              terms.push( ui.item.value );
+              // add placeholder to get the comma-and-space at the end
+              terms.push( "" );
+              this.value = terms.join( ", " );
+              return false;
+            }
+          });
+      } );
 
 
       } // if select columns end here
