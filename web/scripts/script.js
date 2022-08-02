@@ -54,10 +54,28 @@ async function getFiles() {
 
 // done with input screen
 
-function initiateCombinerScreen(same_columns,unique_columns){
+function addInputOutput(){
+  let inp_out_div = document.createElement("div");
+  inp_out_div.setAttribute("class","col-in-out-container");
+  let output_column = document.createElement("input");
+  output_column.setAttribute("class","output-column")
+  output_column.setAttribute("placeholder","Output Column")
+  let input_columns = document.createElement("input");
+  input_columns.setAttribute("class","input-columns");
+  input_columns.setAttribute("placeholder","Input Columns")
+  let rem_btn = document.createElement("button");
+  rem_btn.innerHTML = "Remove";
+  rem_btn.setAttribute("class","col-inp-rm-btn");
+  rem_btn.setAttribute("onclick","removeInpOut(this)")
+  inp_out_div.appendChild(output_column);
+  inp_out_div.appendChild(input_columns);
+  inp_out_div.appendChild(rem_btn);
+  $(inp_out_div).insertBefore("#col-add-btn-container")
 }
 
-
+function removeInpOut(el){
+  el.parentElement.remove();
+}
 
 // footer button
 
@@ -116,7 +134,15 @@ function nextProcess(el){
             }
           });
       } );
+      // Auto complete ends here
 
+      // Adding all columns
+      Array.from(unique_columns).forEach((el)=>{
+        let col_btn = document.createElement("button");
+        col_btn.setAttribute("class","col-btn")
+        col_btn.innerText = el
+        $("#all-columns-container").append(col_btn);
+      })
 
       } // if select columns end here
     }

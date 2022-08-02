@@ -24,7 +24,6 @@ def getFiles():
         ".")[-1] in extensions, file_names))
     file_names = {file_name: pd.read_csv(
         file_name, low_memory=False, nrows=2).columns.to_list() for file_name in file_names}
-    print(file_names)
     return file_names
 
 

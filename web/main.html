@@ -30,24 +30,20 @@
 
         <!-- input div ends here -->
         <div class="combine-screen" id="combine-screen">
-            <div class="user-input">
-                <div class="col-in-out-container">
-                    <input type="text" name="user-input-1" id="user-input-1" placeholder="Output Column" class="output-column">
-                    <input type="text" name="user-input-1" id="user-output-1" placeholder="Input Columns" class="input-columns">
-                    <button class="col-inp-rm-btn">Remove</button>
-                </div>
-                <div class="col-in-out-container">
-                    <input type="text" name="user-input-1" id="user-input-2" placeholder="Output Column" class="output-column">
-                    <input type="text" name="user-input-1" id="user-output-2" placeholder="Input Columns" class="input-columns">
-                    <button class="col-inp-rm-btn">Remove</button>
-                </div>
-                <div class="col-add-btn-container">
-                    <div>
-                        <button id="col-add-btn">Add</button>
+            <div class="user-input" id="user-input">
+                <h2>Add Output</h2>
+                <div id="col-add-btn-container">
+                    <div >
+                        <button id="col-add-btn" onclick="addInputOutput()">Add</button>
                     </div>
                 </div>
             </div>
-            <div class="columns-container"></div>
+            <div class="columns-container">
+                <h2>All Columns</h2>
+                <div id="all-columns-container">
+
+                </div>
+            </div>
         </div>
         <div class="output-screen" id ="output-screen"></div>
     </main>

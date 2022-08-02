@@ -217,19 +217,19 @@ main{
     padding: 1rem;
 }
 
-.col-add-btn-container{
+#col-add-btn-container{
     display: grid;
     grid-template-columns: 42% 42% 16%;
     gap: 1rem;
 }
 
-.col-add-btn-container > div{
+#col-add-btn-container > div{
     grid-column: span 2;
     text-align: center;
     margin-top: 1rem;
 }
 
-.col-add-btn-container button:hover{
+#col-add-btn-container button:hover{
     border: 1px solid white;
 }
 
@@ -259,4 +259,20 @@ main{
     background-color: transparent;
     border: 1px solid var(--border-color);
     padding: .2rem 1rem;
+}
+
+
+#all-columns-container{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+
+
+#all-columns-container button:hover{
+    border: 1px solid var(--submit-color);
+    cursor: pointer;
+    /* font-weight: 600; */
 }
