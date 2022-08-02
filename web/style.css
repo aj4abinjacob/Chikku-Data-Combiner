@@ -51,11 +51,10 @@ img {
     --font-color:hsl(0, 0%, 100%);
     --border-color:hsl(0, 0%, 52%);
     --default-border-radius: 8px;
-    --submit-color:#3944F7;
     --default-shadow:0px 8px 12px;
     --nav-height:100px;
     --delete-color:#E21717;
-    --submit-color:#3DBE29;
+    --submit-color:#0aaa42;
 }
 
 
@@ -166,7 +165,7 @@ main{
 .input-screen h2{
     text-align: center;
 }
-.file-list > li {
+.file-list li {
     border: 1px solid var(--border-color);
     width: 40vw;
     border-radius: var(--default-border-radius);
@@ -176,12 +175,9 @@ main{
     align-items: center;
 }
 
-.file-list > li > button{
-    margin-left: 1rem;
-}
-
 .remove-btn:hover{
     border: 1px solid var(--delete-color);
+    margin-left: 1rem;
 }
 
 .file-list ol {
