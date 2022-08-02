@@ -1,3 +1,4 @@
+
 let columns,same_columns,unique_columns,files_returned,files_object;
 
 
@@ -52,3 +53,25 @@ async function getFiles() {
 }
 
 // done with input screen
+
+function initiateCombinerScreen(same_columns,unique_columns){
+}
+
+
+
+// footer button
+
+function nextProcess(el){
+    if (el.textContent === 'Select Columns'){
+        document.getElementById("input-screen").style.display = "none"
+        document.getElementById("combine-screen").style.display = "flex";
+        // Auto complete
+       $(".input-columns").autocomplete({
+        source: same_columns
+       })
+
+
+      } // if select columns end here
+    }
+
+   

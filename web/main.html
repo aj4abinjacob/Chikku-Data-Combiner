@@ -6,12 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chikku Data Combiner</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 </head>
 <body>
     <nav><h2>Chikku Data Combiner</h2><button class="nav-btn"></button></nav>
     <main>
         <!-- Input div starts here this is where the user submit file -->
-        <div class="input-screen">
+        <div class="input-screen" id = "input-screen">
             <h2>Select your files</h2>
             <ol class="file-list" >
             </ol>
@@ -21,11 +26,34 @@
         </div>
 
         <!-- input div ends here -->
-        <div class="process-screen"></div>
-        <div class="output-screen"></div>
+        <div class="combine-screen" id="combine-screen">
+            <div class="user-input">
+                <div class="col-in-out-container">
+                    <input type="text" name="user-input-1" id="user-input-1" placeholder="Output Column" class="output-column">
+                    <input type="text" name="user-input-1" id="user-output-1" placeholder="Input Columns" class="input-columns">
+                    <button class="col-inp-rm-btn">Remove</button>
+                </div>
+                <div class="col-in-out-container">
+                    <input type="text" name="user-input-1" id="user-input-2" placeholder="Output Column" class="output-column">
+                    <input type="text" name="user-input-1" id="user-output-2" placeholder="Input Columns" class="input-columns">
+                    <button class="col-inp-rm-btn">Remove</button>
+                </div>
+                <div class="col-add-btn-container">
+                    <div>
+                        <button id="col-add-btn">Add</button>
+                    </div>
+                </div>
+            </div>
+            <div class="columns-container"></div>
+        </div>
+        <div class="output-screen" id ="output-screen"></div>
     </main>
-    <footer><button class="footer-btn">Start Combining</button></footer>    
-    <script type="text/javascript" src="./script.js"></script>
+    <footer><button class="footer-btn" onclick="nextProcess(this)">Select Columns</button></footer>    
+    <script type="text/javascript" src="scripts/script.js"></script>
     <script type="text/javascript" src="/eel.js"></script>
+    <script>
+        // auto complete
+
+    </script>
 </body>
 </html>
