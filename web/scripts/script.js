@@ -54,6 +54,20 @@ async function getFiles() {
 
 // done with input screen
 
+function updateColumnHighlight(){
+  let user_input_values = []
+  Array.from(document.getElementsByClassName("input-columns")).forEach((el) =>{
+    el.value.split(",").forEach((col)=>{user_input_values.push(col)})})
+  Array.from(unique_columns).forEach(el=>{
+    if(user_input_values.includes(el)){
+      $(`.col-btn:contains(${el})`).css("border","1px solid #0aaa42")  
+    }else{
+      $(`.col-btn:contains(${el})`).css("border","1px solid hsl(0, 0%, 52%)");  
+    }
+  })
+}
+
+
 function addInputOutput(){
   let inp_out_div = document.createElement("div");
   inp_out_div.setAttribute("class","col-in-out-container");
@@ -62,7 +76,8 @@ function addInputOutput(){
   output_column.setAttribute("placeholder","Output Column")
   let input_columns = document.createElement("input");
   input_columns.setAttribute("class","input-columns");
-  input_columns.setAttribute("placeholder","Input Columns")
+  input_columns.setAttribute("placeholder","Input Columns");
+  input_columns.setAttribute("onkeydown","updateColumnHighlight()")
   let rem_btn = document.createElement("button");
   rem_btn.innerHTML = "Remove";
   rem_btn.setAttribute("class","col-inp-rm-btn");
@@ -71,10 +86,65 @@ function addInputOutput(){
   inp_out_div.appendChild(input_columns);
   inp_out_div.appendChild(rem_btn);
   $(inp_out_div).insertBefore("#col-add-btn-container")
+  bigAutocomplete();
 }
 
 function removeInpOut(el){
   el.parentElement.remove();
+}
+
+function bigAutocomplete(){
+    // Auto complete
+        // Single Auto Complete for output column
+        $(".output-column").autocomplete({
+          source: Array.from(unique_columns)
+         })
+  
+        // Multi Auto Complete
+         
+         $( function() {
+          var availableTags =  Array.from(unique_columns)
+           
+          function split( val ) {
+            return val.split( /,\s*/ );
+          }
+          function extractLast( term ) {
+            return split( term ).pop();
+          }
+       
+          $( ".input-columns" )
+            // don't navigate away from the field on tab when selecting an item
+            .on( "keydown", function( event ) {
+              if ( event.keyCode === $.ui.keyCode.TAB &&
+                  $( this ).autocomplete( "instance" ).menu.active ) {
+                event.preventDefault();
+              }
+            })
+            .autocomplete({
+              minLength: 0,
+              source: function( request, response ) {
+                // delegate back to autocomplete, but extract the last term
+                response( $.ui.autocomplete.filter(
+                  availableTags, extractLast( request.term ) ) );
+              },
+              focus: function() {
+                // prevent value inserted on focus
+                return false;
+              },
+              select: function( event, ui ) {
+                var terms = split( this.value );
+                // remove the current input
+                terms.pop();
+                // add the selected item
+                terms.push( ui.item.value );
+                // add placeholder to get the comma-and-space at the end
+                terms.push( "" );
+                this.value = terms.join( "," );
+                return false;
+              }
+            });
+        } );
+        // Auto complete ends here
 }
 
 // footer button
@@ -83,58 +153,11 @@ function nextProcess(el){
     if (el.textContent === 'Select Columns'){
         document.getElementById("input-screen").style.display = "none"
         document.getElementById("combine-screen").style.display = "flex";
-        // Auto complete
+        // Add a single input out div
+        addInputOutput();
+        // Add a single auto complete for existing input output div
+        bigAutocomplete();
 
-        // Single Auto Complete
-       $(".output-column").autocomplete({
-        source: Array.from(unique_columns)
-       })
-
-      // Multi Auto Complete
-       
-       $( function() {
-        var availableTags =  Array.from(unique_columns)
-         
-        function split( val ) {
-          return val.split( /,\s*/ );
-        }
-        function extractLast( term ) {
-          return split( term ).pop();
-        }
-     
-        $( ".input-columns" )
-          // don't navigate away from the field on tab when selecting an item
-          .on( "keydown", function( event ) {
-            if ( event.keyCode === $.ui.keyCode.TAB &&
-                $( this ).autocomplete( "instance" ).menu.active ) {
-              event.preventDefault();
-            }
-          })
-          .autocomplete({
-            minLength: 0,
-            source: function( request, response ) {
-              // delegate back to autocomplete, but extract the last term
-              response( $.ui.autocomplete.filter(
-                availableTags, extractLast( request.term ) ) );
-            },
-            focus: function() {
-              // prevent value inserted on focus
-              return false;
-            },
-            select: function( event, ui ) {
-              var terms = split( this.value );
-              // remove the current input
-              terms.pop();
-              // add the selected item
-              terms.push( ui.item.value );
-              // add placeholder to get the comma-and-space at the end
-              terms.push( "" );
-              this.value = terms.join( ", " );
-              return false;
-            }
-          });
-      } );
-      // Auto complete ends here
 
       // Adding all columns
       Array.from(unique_columns).forEach((el)=>{
@@ -143,8 +166,6 @@ function nextProcess(el){
         col_btn.innerText = el
         $("#all-columns-container").append(col_btn);
       })
-
+        $("#footer-btn").html("Combine Files")
       } // if select columns end here
     }
-
-   
