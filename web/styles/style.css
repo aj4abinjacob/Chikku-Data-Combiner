@@ -273,6 +273,4 @@ main{
 
 #all-columns-container button:hover{
     border: 1px solid white;
-    cursor: pointer;
-    /* font-weight: 600; */
 }
