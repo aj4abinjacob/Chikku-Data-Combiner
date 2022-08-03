@@ -19,7 +19,7 @@ def getFiles():
         title="Open 'csv','xls', or 'xlsx' files", parent=root
     )
     root.destroy()
-    extensions = ["csv", "tsv", "xlsx", "xls"]
+    extensions = ["csv", "tsv"]
     file_names = list(filter(lambda x: x.split(
         ".")[-1] in extensions, file_names))
     file_names = {file_name: pd.read_csv(
