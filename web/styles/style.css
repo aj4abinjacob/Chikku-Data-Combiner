@@ -318,3 +318,9 @@ main{
     align-items: flex-start;
     padding: 1.5rem;
 }
+
+#output-screen{
+    justify-content: center;
+    align-items: center;
+}
+

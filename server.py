@@ -42,8 +42,13 @@ def columnCleansing(col_dict):
             out_dict[i] = k
     return out_dict
 
+@eel.expose
+def clearList():
+    global all_files
+    all_files = []
+    return "Done clearing df list"
 
-all_files = [] 
+
 
 @eel.expose
 def combineFiles(file_col_inp):
@@ -54,6 +59,7 @@ def combineFiles(file_col_inp):
     df = df.rename(columns=rename_keys)
     all_files.append(df)
     return f"Formating {file}"
+
 
 @eel.expose
 def finalCombine():

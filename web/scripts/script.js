@@ -87,12 +87,13 @@ function updateColumnHighlight(){
   if (difference.size > 0) {
     invalid_output_cols = true;
     if (difference.has("")){
+      invalid_input_cols = true
       invalid_cols_log += `\nYou have entered input columns with empty values`
     }else{
       invalid_cols_log += `\nYou have entered columns which are not in any files : ${Array.from(difference).join().replace(/^,+|,+$/g, '')}`
     }
   }else{
-    invalid_output_cols = false;
+    invalid_input_cols = false;
   }
   // Check to see if user has entered wrong input value for input columns
   Array.from(document.getElementsByClassName("output-column")).forEach((el,ind)=>{
@@ -214,12 +215,17 @@ async function combineFiles(){
   )
   updateColumnHighlight();
   // check to see if there are any errors before combining
-  if ((invalid_output_cols)||($(".input-columns").length === 0) || ($(".output-column").length ===0) || multiple_same_input_cols){
+  if ((invalid_input_cols)||(invalid_output_cols)||($(".input-columns").length === 0) ||
+   ($(".output-column").length ===0) || multiple_same_input_cols){
       alert(`Please give valid input before submiting. \n${invalid_cols_log}`);
   }else{
+    // Clear existing python df list if any
+    let is_df_li_clear = await eel.clearList()();
+    // console.log(is_df_li_clear);
     // hide combine screen
     $("#combine-screen").hide();
-    $("submit-btn").hide();
+    $("#submit-btn").hide();
+    $("#output-screen").show();
     // If no error proceed to combine
     document.getElementById("nav-btn").style.display = "none"; //temp hide
     col_python_dict_input = {}
@@ -230,20 +236,34 @@ async function combineFiles(){
     let selected_files = Object.keys(files_object)
     for (let i = 0; i < selected_files.length; i++ ){  
       combine_status = await eel.combineFiles([selected_files[i],col_python_dict_input])();
-      console.log(combine_status);
-      }
+      // console.log(combine_status);
+      document.getElementById("process-output").innerHTML = combine_status;
+    }
     let final_output = await eel.finalCombine()();
-    console.log(final_output);
+    document.getElementById("process-output").innerHTML = final_output;
+    // console.log(final_output);
     document.getElementById("nav-btn").style.display = "inline-block";
   }
 
 }
 
+function clearInvalidEntries(){
+  document.getElementById("column-info").innerHTML = "";
+  let input_columns_exist = document.getElementsByClassName("input-columns")
+  for(let i=0;i<input_columns_exist.length;i++){
+    input_columns_exist[i].value.split(',').forEach((val)=>{
+      if (!unique_columns.has(val)){
+        input_columns_exist[i].value = input_columns_exist[i].value.replace(val,"")
+      }
+    })
+  }
+}
 
 // footer button
 function nextProcess(el){
     if (el.textContent === 'Select Columns'){
-        document.getElementById("all-columns-container").innerHTML = "";
+      document.getElementById("all-columns-container").innerHTML = "";
+      clearInvalidEntries();
         columnsUpdate();
         document.getElementById("nav-btn").style.display = "inline-block";
         document.getElementById("input-screen").style.display = "none";
@@ -257,17 +277,18 @@ function nextProcess(el){
       // Adding all columns
       Array.from(unique_columns).sort().forEach((el)=>{
         let col_btn = document.createElement("button");
-        col_btn.setAttribute("class","col-btn")
+        col_btn.setAttribute("class","col-btn");
         col_btn.setAttribute("onmouseover","showColumnInfo(this)")
-        col_btn.innerText = el
+        col_btn.innerText = el;
         $("#all-columns-container").append(col_btn);
-        document.getElementById("submit-btn").innerHTML = "Combine Files"
+        document.getElementById("submit-btn").innerHTML = "Combine Files";
       })
 
 
       } // if select columns end here
       else if (el.textContent === "Combine Files") {
         combineFiles();
+
       }
     }
 
