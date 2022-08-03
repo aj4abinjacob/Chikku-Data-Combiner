@@ -39,15 +39,15 @@ img {
   display: block;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Poppins&display=swap');
-
-
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 :root{
     --header-margin:5%;
     --default-margin:3%;
     --header-font:'Montserrat', sans-serif;
-    --normal-font:'Poppins', sans-serif;
-    --bg-color:hsl(0, 0%, 11%);
+    --header-color:hsl(33, 9%, 81%);
+    --normal-font:'Montserrat', sans-serif;
+    --bg-color:hsl(200, 6%, 10%);
     --font-color:hsl(0, 0%, 100%);
     --border-color:hsl(0, 0%, 52%);
     --default-border-radius: 8px;
@@ -60,9 +60,10 @@ img {
 
 *{
     font-family: var(--normal-font);
+    font-weight: 400;
 }
 body{
-    background-color: hsl(0, 0%, 11%);
+    background-color: var(--bg-color);
     color: #fefefe;
     flex-direction: column;
     color: var(--font-color);
@@ -78,9 +79,10 @@ nav{
     align-items: center; 
 }
 
-nav > h2{
+nav > h1{
     font-family: var(--header-font);
     font-size: 2.4rem;
+    font-weight: 400;
 }
 
 
@@ -106,9 +108,8 @@ button{
     border: 1px solid var(--border-color);
     border-radius: var(--default-border-radius);
     cursor: pointer;
-    color: var(--font-color);
-
-    /* font-weight: 600; */
+    color: white;
+    font-weight: 500;
 }
 
 .footer-btn{
@@ -160,6 +161,7 @@ main{
 
 .input-screen h2{
     text-align: center;
+    font-weight: 400;
 }
 .file-list li {
     border: 1px solid var(--border-color);
@@ -262,15 +264,52 @@ main{
 }
 
 
+#columns-info-container{
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+#columns-info-container h2{
+    padding-left: 1rem;
+}
+
+
 #all-columns-container{
     display: flex;
     flex-wrap: wrap;
     padding: 1rem;
     gap: 1rem;
+    align-content: flex-start;
 }
 
 
 
 #all-columns-container button:hover{
     border: 1px solid white;
+    cursor: default;
+}
+
+#column-info{
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+#column-info h3{
+    display: inline-block;
+    padding: .2rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--default-border-radius);
+    margin-left: 1rem;
+}
+
+#column-info ol{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1.5rem;
 }

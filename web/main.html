@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chikku Data Combiner</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="./styles/style.css">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/dark-hive/jquery-ui.min.css" integrity="sha512-gCFexX+67Pl9rPa75MMyEH2I5jbD5tqij8VBYcsLVwgVfVEdfon+9CEjVnXPtqoHLXjxrjMcyHLaee65dt/jxw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
     <link rel="stylesheet" href="./styles/jquery-ui.min.css">
@@ -16,7 +18,7 @@
 
 </head>
 <body>
-    <nav><h2>Chikku Data Combiner</h2><button class="nav-btn"></button></nav>
+    <nav><h1>Chikku Data Combiner</h1><button class="nav-btn"></button></nav>
     <main>
         <!-- Input div starts here this is where the user submit file -->
         <div class="input-screen" id = "input-screen">
@@ -31,17 +33,18 @@
         <!-- input div ends here -->
         <div class="combine-screen" id="combine-screen" onmouseover="updateColumnHighlight()">
             <div class="user-input" id="user-input">
-                <h2>Add Output</h2>
+                <h2>Enter Columns</h2>
                 <div id="col-add-btn-container">
                     <div >
                         <button id="col-add-btn" onclick="addInputOutput()">Add</button>
                     </div>
                 </div>
             </div>
-            <div class="columns-container">
+            <div class="columns-info-container" id="columns-info-container">
                 <h2>All Columns</h2>
                 <div id="all-columns-container">
-
+                </div>
+                <div id="column-info">
                 </div>
             </div>
         </div>

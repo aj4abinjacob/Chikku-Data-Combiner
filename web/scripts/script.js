@@ -60,11 +60,19 @@ function updateColumnHighlight(){
     el.value.split(",").forEach((col)=>{user_input_values.push(col)})})
   Array.from(unique_columns).forEach(el=>{
     if(user_input_values.includes(el)){
-      $(`.col-btn:contains(${el})`).css("border","1px solid #0aaa42")  
+      if (user_input_values.reduce((t,c)=>(c === el ? t+1 : t ),0) > 1){
+        $(`.col-btn:contains(${el})`).css("border","1px solid hsl(0, 100%, 50%)");  
+      }else{
+        $(`.col-btn:contains(${el})`).css("border","1px solid #0aaa42");
+      }
+
     }else{
       $(`.col-btn:contains(${el})`).css("border","1px solid hsl(0, 0%, 52%)");  
     }
   })
+  const difference = new Set([...user_input_values].filter((x) => !unique_columns.has(x)))
+  if (difference.size > 0) {console.log(Array.from(difference).join().replace(/^,+|,+$/g, ''))} 
+  
 }
 
 
@@ -87,6 +95,10 @@ function addInputOutput(){
   inp_out_div.appendChild(rem_btn);
   $(inp_out_div).insertBefore("#col-add-btn-container")
   bigAutocomplete();
+  $("#col-add-btn-container")[0].scrollIntoView({
+    behavior: "smooth", // or "auto" or "instant"
+    block: "start" // or "end"
+});
 }
 
 function removeInpOut(el){
@@ -147,8 +159,21 @@ function bigAutocomplete(){
         // Auto complete ends here
 }
 
-// footer button
 
+
+
+function showColumnInfo(el){
+  let column_containing_files = new Set 
+  Object.keys(files_object).forEach((file)=>{if (files_object[file].includes(el.textContent)){column_containing_files.add(file)}})
+  let ol_file = "<ol>"
+  column_containing_files.forEach((el)=>{ol_file += `<li>${el}</li>`})
+  ol_file += "</ol>"
+  document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el.textContent}</h3>${ol_file}`
+
+}
+
+
+// footer button
 function nextProcess(el){
     if (el.textContent === 'Select Columns'){
         document.getElementById("input-screen").style.display = "none"
@@ -163,9 +188,13 @@ function nextProcess(el){
       Array.from(unique_columns).forEach((el)=>{
         let col_btn = document.createElement("button");
         col_btn.setAttribute("class","col-btn")
+        col_btn.setAttribute("onmouseover","showColumnInfo(this)")
         col_btn.innerText = el
         $("#all-columns-container").append(col_btn);
       })
         $("#footer-btn").html("Combine Files")
+        $("#footer-btn").style("cursor","pointer")
+
+
       } // if select columns end here
     }
