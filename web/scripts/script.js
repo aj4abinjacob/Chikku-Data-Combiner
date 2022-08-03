@@ -179,7 +179,13 @@ async function combineFiles(){
   Array.from(document.getElementsByClassName("col-in-out-container")).forEach((el)=>{
     col_python_dict_input[el.getElementsByClassName("output-column")[0].value] = el.getElementsByClassName("input-columns")[0].value
   })
-  combine_status = await eel.combineFiles(col_python_dict_input)();
+  let selected_files = Object.keys(files_object)
+  for (let i = 0; i < selected_files.length; i++ ){  
+    combine_status = await eel.combineFiles([selected_files[i],col_python_dict_input])();
+    console.log(combine_status);
+    }
+  let final_output = await eel.finalCombine()();
+  console.log(final_output);
 }
 
 
