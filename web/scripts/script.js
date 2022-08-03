@@ -217,7 +217,11 @@ async function combineFiles(){
   if ((invalid_output_cols)||($(".input-columns").length === 0) || ($(".output-column").length ===0) || multiple_same_input_cols){
       alert(`Please give valid input before submiting. \n${invalid_cols_log}`);
   }else{
+    // hide combine screen
+    $("#combine-screen").hide();
+    $("submit-btn").hide();
     // If no error proceed to combine
+    document.getElementById("nav-btn").style.display = "none"; //temp hide
     col_python_dict_input = {}
     // get user entered values
     Array.from(document.getElementsByClassName("col-in-out-container")).forEach((el)=>{
@@ -230,6 +234,7 @@ async function combineFiles(){
       }
     let final_output = await eel.finalCombine()();
     console.log(final_output);
+    document.getElementById("nav-btn").style.display = "inline-block";
   }
 
 }
@@ -238,13 +243,16 @@ async function combineFiles(){
 // footer button
 function nextProcess(el){
     if (el.textContent === 'Select Columns'){
-        document.getElementById("input-screen").style.display = "none"
+        document.getElementById("all-columns-container").innerHTML = "";
+        columnsUpdate();
+        document.getElementById("nav-btn").style.display = "inline-block";
+        document.getElementById("input-screen").style.display = "none";
         document.getElementById("combine-screen").style.display = "flex";
         // Add a single input out div
-        addInputOutput();
+        if(document.getElementsByClassName("col-in-out-container").length === 0){addInputOutput()};
         // Add a single auto complete for existing input output div
         bigAutocomplete();
-
+        
 
       // Adding all columns
       Array.from(unique_columns).sort().forEach((el)=>{
@@ -262,3 +270,19 @@ function nextProcess(el){
         combineFiles();
       }
     }
+
+// Go back
+function goBack(){
+  if($("#combine-screen").is(":visible")){
+    $("#combine-screen").hide();
+    $("#output-screen").hide();
+    $("#input-screen").show();
+    document.getElementById("submit-btn").innerHTML = "Select Columns"; 
+    $("#nav-btn").hide();
+  }else{
+    $("#output-screen").hide();
+    $("#combine-screen").show();
+    $("#submit-btn").show();
+
+  }
+}
