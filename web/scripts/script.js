@@ -186,7 +186,7 @@ function nextProcess(el){
       Array.from(unique_columns).sort().forEach((el)=>{
         let col_btn = document.createElement("button");
         col_btn.setAttribute("class","col-btn")
-        col_btn.setAttribute("onclick","showColumnInfo(this)")
+        col_btn.setAttribute("onmouseover","showColumnInfo(this)")
         col_btn.innerText = el
         $("#all-columns-container").append(col_btn);
       })
