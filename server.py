@@ -16,7 +16,7 @@ def getFiles():
     root.wm_attributes("-topmost", 1)
     root.wm_state("iconic")
     file_names = askopenfilenames(
-        title="Open 'csv','xls', or 'xlsx' files", parent=root
+        title="Open 'csv','xls'files", parent=root
     )
     root.destroy()
     extensions = ["csv", "tsv"]
@@ -26,8 +26,10 @@ def getFiles():
         file_name, low_memory=False, nrows=2).columns.to_list() for file_name in file_names}
     return file_names
 
-
-
+@eel.expose
+def combineFiles(file_col_inp):
+    print(file_col_inp[0],file_col_inp[1])
+    return "Combined"
 
 while True:
     eel.sleep(10)

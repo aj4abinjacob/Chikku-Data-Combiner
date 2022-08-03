@@ -31,8 +31,8 @@
         </div>
 
         <!-- input div ends here -->
-        <div class="combine-screen" id="combine-screen" onmouseover="updateColumnHighlight()">
-            <div class="user-input" id="user-input">
+        <div class="combine-screen" id="combine-screen" >
+            <div class="user-input" id="user-input" onmouseover="updateColumnHighlight()">
                 <h2>Enter Columns</h2>
                 <div id="col-add-btn-container">
                     <div >
@@ -50,7 +50,9 @@
         </div>
         <div class="output-screen" id ="output-screen"></div>
     </main>
-    <footer><button class="footer-btn" id="footer-btn" onclick="nextProcess(this)">Select Columns</button></footer>    
+    <footer>
+        <button class="footer-btn" id="submit-btn" onclick="nextProcess(this)">Select Columns</button>
+    </footer>    
     <script type="text/javascript" src="scripts/script.js"></script>
     <script type="text/javascript" src="/eel.js"></script>
     <script>

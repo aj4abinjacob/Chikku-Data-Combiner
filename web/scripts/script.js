@@ -171,6 +171,18 @@ function showColumnInfo(el){
 }
 
 
+
+// Combine Files
+async function combineFiles(){
+  col_python_dict_input = {}
+  // get user entered values
+  Array.from(document.getElementsByClassName("col-in-out-container")).forEach((el)=>{
+    col_python_dict_input[el.getElementsByClassName("output-column")[0].value] = el.getElementsByClassName("input-columns")[0].value
+  })
+  combine_status = await eel.combineFiles(col_python_dict_input)();
+}
+
+
 // footer button
 function nextProcess(el){
     if (el.textContent === 'Select Columns'){
@@ -189,10 +201,12 @@ function nextProcess(el){
         col_btn.setAttribute("onmouseover","showColumnInfo(this)")
         col_btn.innerText = el
         $("#all-columns-container").append(col_btn);
+        document.getElementById("submit-btn").innerHTML = "Combine Files"
       })
-        $("#footer-btn").html("Combine Files")
-        $("#footer-btn").style("cursor","pointer")
 
 
       } // if select columns end here
+      else if (el.textContent === "Combine Files") {
+        combineFiles();
+      }
     }

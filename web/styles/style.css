@@ -55,6 +55,7 @@ img {
     --nav-height:100px;
     --delete-color:#E21717;
     --submit-color:#0aaa42;
+    --footer-height: 10vh;
 }
 
 
@@ -88,9 +89,11 @@ nav > h1{
 
 footer{
     position: fixed;
+    z-index: 3;
     bottom: 0;
-    height: 10vh;
-    width: 100vw;
+    height: var(--footer-height);
+    width: 20vw;
+    right: 0;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -113,10 +116,12 @@ button{
 }
 
 .footer-btn{
-    display: none;
+    /* display: none; */
     font-size: 1.1rem;
     margin-right: var(--default-margin);
 }
+
+
 
 .footer-btn:hover{
     border-color:var(--submit-color);
@@ -205,6 +210,7 @@ main{
     width: 100vw;
     display: none;
     justify-content: space-between;
+    margin-bottom: var(--footer-height);
 }
 
 .combine-screen > *{
