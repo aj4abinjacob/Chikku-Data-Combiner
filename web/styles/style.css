@@ -287,7 +287,6 @@ main{
 
 #all-columns-container button:hover{
     border: 1px solid white;
-    cursor: default;
 }
 
 #column-info{

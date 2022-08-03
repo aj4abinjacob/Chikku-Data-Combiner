@@ -159,8 +159,7 @@ function bigAutocomplete(){
         // Auto complete ends here
 }
 
-
-
+// Show column info on button click
 
 function showColumnInfo(el){
   let column_containing_files = new Set 
@@ -168,8 +167,7 @@ function showColumnInfo(el){
   let ol_file = "<ol>"
   column_containing_files.forEach((el)=>{ol_file += `<li>${el}</li>`})
   ol_file += "</ol>"
-  document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el.textContent}</h3>${ol_file}`
-
+  document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el.textContent}</h3>${ol_file}`;
 }
 
 
@@ -188,7 +186,7 @@ function nextProcess(el){
       Array.from(unique_columns).sort().forEach((el)=>{
         let col_btn = document.createElement("button");
         col_btn.setAttribute("class","col-btn")
-        col_btn.setAttribute("onmouseover","showColumnInfo(this)")
+        col_btn.setAttribute("onclick","showColumnInfo(this)")
         col_btn.innerText = el
         $("#all-columns-container").append(col_btn);
       })
