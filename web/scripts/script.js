@@ -1,11 +1,13 @@
 
 let columns,same_columns,unique_columns,files_returned,files_object;
 
+// Global input output error check variables
+let invalid_input_cols, invalid_output_cols, multiple_same_input_cols, invalid_cols_log;
+
 
 
 // Input Screen Functions and Objects
 files_object = {}
-
 function columnsUpdate(){
     columns = Object.values(files_object);
     // p for previous element , c for current, e for element
@@ -53,26 +55,55 @@ async function getFiles() {
 }
 
 // done with input screen
-
+function nth(n){return [,'st','nd','rd'][n%100>>3^1&&n%10]||'th'}
 function updateColumnHighlight(){
+  invalid_cols_log = ''
   let user_input_values = []
   Array.from(document.getElementsByClassName("input-columns")).forEach((el) =>{
+    el.value = el.value.replace(",,",",");
     el.value.split(",").forEach((col)=>{user_input_values.push(col)})})
+
   Array.from(unique_columns).forEach(el=>{
     if(user_input_values.includes(el)){
       if (user_input_values.reduce((t,c)=>(c === el ? t+1 : t ),0) > 1){
         $(`.col-btn:contains(${el})`).css("border","1px solid hsl(0, 100%, 50%)");  
+        $(`.col-btn:contains(${el})`).css("color","hsl(0, 100%, 50%)");
+        multiple_same_input_cols = true  
+        invalid_cols_log += `You have entered ${el} more than once`
       }else{
         $(`.col-btn:contains(${el})`).css("border","1px solid #0aaa42");
+        $(`.col-btn:contains(${el})`).css("color"," #0aaa42");
       }
-
+      
     }else{
       $(`.col-btn:contains(${el})`).css("border","1px solid hsl(0, 0%, 52%)");  
+      $(`.col-btn:contains(${el})`).css("color","white");
+      multiple_same_input_cols = false  
+
     }
   })
   const difference = new Set([...user_input_values].filter((x) => !unique_columns.has(x)))
-  if (difference.size > 0) {console.log(Array.from(difference).join().replace(/^,+|,+$/g, ''))} 
-  
+  // Check to see if user has entered wrong input value for input columns
+  if (difference.size > 0) {
+    invalid_output_cols = true;
+    if (difference.has("")){
+      invalid_cols_log += `\nYou have entered input columns with empty values`
+    }else{
+      invalid_cols_log += `\nYou have entered columns which are not in any files : ${Array.from(difference).join().replace(/^,+|,+$/g, '')}`
+    }
+  }else{
+    invalid_output_cols = false;
+  }
+  // Check to see if user has entered wrong input value for input columns
+  Array.from(document.getElementsByClassName("output-column")).forEach((el,ind)=>{
+      if(el.value === ""){
+        invalid_output_cols = true;
+        invalid_cols_log += `\nYou haven't filled ${ind+1}${nth(ind+1)} output column`;
+      }else{
+        invalid_output_cols = false;
+      }
+    })
+
 }
 
 
@@ -174,18 +205,33 @@ function showColumnInfo(el){
 
 // Combine Files
 async function combineFiles(){
-  col_python_dict_input = {}
-  // get user entered values
-  Array.from(document.getElementsByClassName("col-in-out-container")).forEach((el)=>{
-    col_python_dict_input[el.getElementsByClassName("output-column")[0].value] = el.getElementsByClassName("input-columns")[0].value
-  })
-  let selected_files = Object.keys(files_object)
-  for (let i = 0; i < selected_files.length; i++ ){  
-    combine_status = await eel.combineFiles([selected_files[i],col_python_dict_input])();
-    console.log(combine_status);
-    }
-  let final_output = await eel.finalCombine()();
-  console.log(final_output);
+  // final cleanup
+  ["input-columns","output-column"].forEach((val)=>{
+    Array.from(document.getElementsByClassName(val)).forEach((el) =>{
+      el.value = el.value.replace(/^,+|,+$/g, '')
+    })
+  }
+  )
+  updateColumnHighlight();
+  // check to see if there are any errors before combining
+  if ((invalid_output_cols)||($(".input-columns").length === 0) || ($(".output-column").length ===0) || multiple_same_input_cols){
+      alert(`Please give valid input before submiting. \n${invalid_cols_log}`);
+  }else{
+    // If no error proceed to combine
+    col_python_dict_input = {}
+    // get user entered values
+    Array.from(document.getElementsByClassName("col-in-out-container")).forEach((el)=>{
+      col_python_dict_input[el.getElementsByClassName("output-column")[0].value] = el.getElementsByClassName("input-columns")[0].value
+    })
+    let selected_files = Object.keys(files_object)
+    for (let i = 0; i < selected_files.length; i++ ){  
+      combine_status = await eel.combineFiles([selected_files[i],col_python_dict_input])();
+      console.log(combine_status);
+      }
+    let final_output = await eel.finalCombine()();
+    console.log(final_output);
+  }
+
 }
 
 
