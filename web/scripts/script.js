@@ -54,6 +54,9 @@ async function getFiles() {
     );
 }
 
+
+
+
 // done with input screen
 function nth(n){return [,'st','nd','rd'][n%100>>3^1&&n%10]||'th'}
 function updateColumnHighlight(){
@@ -73,7 +76,7 @@ function updateColumnHighlight(){
       $(".col-btn").filter(function() {
         return $(this).text() === el;
     }).css("color","var(--delete-color)");
-        invalid_cols_log += `You have entered ${el} more than once`
+        invalid_cols_log += `You have entered ${el} more than once in input column`
       }else{
         $(".col-btn").filter(function() {
           return $(this).text() === el;
@@ -85,8 +88,12 @@ function updateColumnHighlight(){
       }
       
     }else{
-      $(`.col-btn:contains(${el})`).css("border","1px solid hsl(0, 0%, 52%)");  
-      $(`.col-btn:contains(${el})`).css("color","white");
+       $(".col-btn").filter(function() {
+        return $(this).text() === el;
+    }).css("border","1px solid hsl(0, 0%, 52%)");  
+       $(".col-btn").filter(function() {
+        return $(this).text() === el;
+    }).css("color","white");
 
     }
   })
@@ -104,6 +111,7 @@ function updateColumnHighlight(){
     invalid_input_cols = false;
   }
   // Check to see if user has entered wrong input value for input columns
+  let output_col_values_list = []
   Array.from(document.getElementsByClassName("output-column")).forEach((el,ind)=>{
     el.value = el.value.replace(",,",",");
     el.value = el.value.replace(/^,+|"+$/g, '');
@@ -111,10 +119,19 @@ function updateColumnHighlight(){
         invalid_output_cols = true;
         invalid_cols_log += `\nYou haven't filled ${ind+1}${nth(ind+1)} output column`;
       }else{
+        output_col_values_list.push(el.value);
         invalid_output_cols = false;
       }
     })
-
+    let dup_li = output_col_values_list.reduce(function(list, item, index, array) { 
+      if (array.indexOf(item, index + 1) !== -1 && list.indexOf(item) === -1) {
+        list.push(item);
+      }
+      return list;
+    }, []);
+    dup_li.forEach((el)=>{
+      invalid_cols_log += `\nYou have entered ${el} more than once in output column`
+    })
 }
 
 let col_btn_focus;
