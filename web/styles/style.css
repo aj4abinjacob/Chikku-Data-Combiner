@@ -86,7 +86,6 @@ nav > h1{
     font-weight: 400;
 }
 
-
 footer{
     position: fixed;
     z-index: 3;
@@ -100,8 +99,6 @@ footer{
     align-items: center;
     justify-content: flex-end;
 }
-
-
 
 #nav-btn{
     display: none;
@@ -128,8 +125,6 @@ button:hover{
     margin-right: var(--default-margin);
 }
 
-
-
 .footer-btn:hover{
     border-color:var(--submit-color);
     /* box-shadow: var(--submit-color) var(--default-shadow); */
@@ -137,7 +132,6 @@ button:hover{
 
 /* Setting z index for process screen and output screen */
 /*  The default display state will be none */
-
 
 main{
     flex-grow: 2;
@@ -156,6 +150,7 @@ main{
     gap: var(--default-margin);
 
 }
+
 .file-list{
     display: flex;
     flex-direction: column;
@@ -294,6 +289,10 @@ main{
     align-content: flex-start;
 }
 
+#similar-btn{
+    border-radius: 16px;
+    border: 1px solid hsl(277, 100%, 66%);
+}
 
 
 #all-columns-container button:hover{

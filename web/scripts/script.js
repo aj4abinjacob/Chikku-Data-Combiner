@@ -294,11 +294,29 @@ function nextProcess(el){
       Array.from(unique_columns).sort(Intl.Collator().compare).forEach((el)=>{
         let col_btn = document.createElement("button");
         col_btn.setAttribute("class","col-btn");
-        col_btn.setAttribute("onmouseover","showColumnInfo(this)")
+       
+        // col_btn.setAttribute("onmouseover","showColumnInfo(this)")
         col_btn.innerText = el;
         $("#all-columns-container").append(col_btn);
         document.getElementById("submit-btn").innerHTML = "Combine Files";
       })
+
+
+      $('.col-btn').hover(function() {
+        // on mouse in, start a timeout
+        el =  $(this).text()
+        timer = setTimeout(function() {
+          let column_containing_files = new Set 
+          Object.keys(files_object).forEach((file)=>{if (files_object[file].includes(el)){column_containing_files.add(file)}})
+          let ol_file = "<ol>"
+          column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this)">Open File</button></li>`})
+          ol_file += "</ol>"
+          document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el}</h3>${ol_file}`;
+        }, 2000);
+        }, function() {
+            // on mouse out, cancel the timer
+            clearTimeout(timer);
+        });
 
 
       } // if select columns end here
