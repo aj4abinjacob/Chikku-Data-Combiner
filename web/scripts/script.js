@@ -68,7 +68,6 @@ function updateColumnHighlight(){
       if (user_input_values.reduce((t,c)=>(c === el ? t+1 : t ),0) > 1){
         $(`.col-btn:contains(${el})`).css("border","1px solid var(--delete-color)");  
         $(`.col-btn:contains(${el})`).css("color","var(--delete-color)");
-        multiple_same_input_cols = true  
         invalid_cols_log += `You have entered ${el} more than once`
       }else{
         $(`.col-btn:contains(${el})`).css("border","1px solid var(--submit-color)");
@@ -78,7 +77,6 @@ function updateColumnHighlight(){
     }else{
       $(`.col-btn:contains(${el})`).css("border","1px solid hsl(0, 0%, 52%)");  
       $(`.col-btn:contains(${el})`).css("color","white");
-      multiple_same_input_cols = false  
 
     }
   })
@@ -232,8 +230,8 @@ async function combineFiles(){
   updateColumnHighlight();
   // check to see if there are any errors before combining
   if ((invalid_input_cols)||(invalid_output_cols)||($(".input-columns").length === 0) || invalid_cols_log.includes("more than once")
-   || ($(".output-column").length ===0) || multiple_same_input_cols){
-      alert(`Please give valid input before submiting. \n${invalid_cols_log}`);
+   || ($(".output-column").length ===0)){
+      alert(`Please give valid input before submitting. \n${invalid_cols_log}`);
   }else{
     // Clear existing python df list if any
     let is_df_li_clear = await eel.clearList()();
@@ -301,7 +299,7 @@ function nextProcess(el){
         document.getElementById("submit-btn").innerHTML = "Combine Files";
       })
 
-
+      // For showing column info on hover
       $('.col-btn').hover(function() {
         // on mouse in, start a timeout
         el =  $(this).text()
@@ -317,7 +315,9 @@ function nextProcess(el){
             // on mouse out, cancel the timer
             clearTimeout(timer);
         });
-
+        // ends here
+        
+      if (similar_columns.length === 0){$("#similar-btn").hide()}else{$("#similar-btn").show()} ;
 
       } // if select columns end here
       else if (el.textContent === "Combine Files") {
