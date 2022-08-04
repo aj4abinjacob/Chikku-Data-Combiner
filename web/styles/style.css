@@ -131,10 +131,6 @@ button{
 /* Setting z index for process screen and output screen */
 /*  The default display state will be none */
 
-.output-screen{
-    z-index: 2;
-    display: none;
-}
 
 main{
     flex-grow: 2;
@@ -320,6 +316,9 @@ main{
 }
 
 #output-screen{
+    z-index: 2;
+    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
 }

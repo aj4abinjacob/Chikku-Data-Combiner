@@ -55,15 +55,15 @@ def combineFiles(file_col_inp):
     file = file_col_inp[0]
     rename_keys = columnCleansing(file_col_inp[1])
     df = pd.read_csv(file,low_memory=False)
-    df = df[list(set(df.columns.tolist()) & (set(rename_keys.keys())))]
-    df = df.rename(columns=rename_keys)
+    df = df[list(set(df.columns.tolist()) & (set(rename_keys.keys())))].copy()
+    df = df.rename(columns=rename_keys).copy()
     all_files.append(df)
     return f"Formating {file}"
 
 
 @eel.expose
 def finalCombine():
-    df = pd.concat(all_files)
+    df = pd.concat(all_files,axis=1)
     root = Tk()  # this is to close the dialogue box later
     root.wm_attributes("-topmost", 1)
     root.wm_state("iconic")

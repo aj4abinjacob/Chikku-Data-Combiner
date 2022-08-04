@@ -304,6 +304,6 @@ function goBack(){
     $("#output-screen").hide();
     $("#combine-screen").show();
     $("#submit-btn").show();
-
-  }
+    document.getElementById("process-output").innerHTML = ""
+  } 
 }
