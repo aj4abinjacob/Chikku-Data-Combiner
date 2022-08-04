@@ -202,14 +202,14 @@ async function openFile(el){
 
 
 // Show column info 
-function showColumnInfo(el){
-  let column_containing_files = new Set 
-  Object.keys(files_object).forEach((file)=>{if (files_object[file].includes(el.textContent)){column_containing_files.add(file)}})
-  let ol_file = "<ol>"
-  column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this)">Open File</button></li>`})
-  ol_file += "</ol>"
-  document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el.textContent}</h3>${ol_file}`;
-}
+// function showColumnInfo(el){
+//   let column_containing_files = new Set 
+//   Object.keys(files_object).forEach((file)=>{if (files_object[file].includes(el.textContent)){column_containing_files.add(file)}})
+//   let ol_file = "<ol>"
+//   column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this)">Open File</button></li>`})
+//   ol_file += "</ol>"
+//   document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el.textContent}</h3>${ol_file}`;
+// }
 
 // fill up with similar Columns
 function fillUpSimilarColumns(){
