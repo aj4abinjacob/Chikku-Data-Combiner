@@ -291,7 +291,7 @@ function nextProcess(el){
         
 
       // Adding all columns
-      Array.from(unique_columns).sort().forEach((el)=>{
+      Array.from(unique_columns).sort(Intl.Collator().compare).forEach((el)=>{
         let col_btn = document.createElement("button");
         col_btn.setAttribute("class","col-btn");
         col_btn.setAttribute("onmouseover","showColumnInfo(this)")
