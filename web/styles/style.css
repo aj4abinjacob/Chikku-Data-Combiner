@@ -110,11 +110,16 @@ footer{
 button{
     background-color: var(--bg-color);
     padding: .6rem 1rem;
-    border: 1px solid var(--border-color);
     border-radius: var(--default-border-radius);
+    border: 1px solid var(--border-color);
     cursor: pointer;
     color: white;
     font-weight: 500;
+}
+
+button:hover{
+    border: 1px solid white;
+
 }
 
 .footer-btn{
@@ -175,10 +180,12 @@ main{
     justify-content: space-between;
     align-items: center;
 }
+.remove-btn{
+    margin-left: 1rem;
+}
 
 .remove-btn:hover{
     border: 1px solid var(--delete-color);
-    margin-left: 1rem;
 }
 
 .file-list ol {
@@ -293,6 +300,16 @@ main{
     border: 1px solid white;
 }
 
+.all-columns-header{
+    display: flex;
+    gap: 1rem;
+}
+
+.all-columns-header button{
+    font-size: .8rem;
+    font-weight: 500;
+}
+
 #column-info{
     padding: 1rem;
     display: flex;
@@ -315,6 +332,10 @@ main{
     gap: 1rem;
     align-items: flex-start;
     padding: 1.5rem;
+}
+
+#column-info button{
+    margin: .7rem 1rem;
 }
 
 #output-screen{

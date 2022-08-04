@@ -1,5 +1,5 @@
 
-let columns,same_columns,unique_columns,files_returned,files_object;
+let columns,similar_columns,unique_columns,files_returned,files_object;
 
 // Global input output error check variables
 let invalid_input_cols, invalid_output_cols, multiple_same_input_cols, invalid_cols_log;
@@ -11,7 +11,7 @@ files_object = {}
 function columnsUpdate(){
     columns = Object.values(files_object);
     // p for previous element , c for current, e for element
-    same_columns = columns.reduce((p,c)=>p.filter(e => c.includes(e))); 
+    similar_columns = columns.reduce((p,c)=>p.filter(e => c.includes(e))); 
     unique_columns = new Set;
     columns.forEach(arr=>{arr.forEach(el=>unique_columns.add(el))})
 
@@ -191,18 +191,34 @@ function bigAutocomplete(){
         // Auto complete ends here
 }
 
-// Show column info on button click
 
+// Open file
+
+async function openFile(el){
+  console.log(el.textContent)
+  const value = el.parentElement.textContent
+  const file_opened = await eel.fileOpen(value)
+}
+
+
+// Show column info 
 function showColumnInfo(el){
   let column_containing_files = new Set 
   Object.keys(files_object).forEach((file)=>{if (files_object[file].includes(el.textContent)){column_containing_files.add(file)}})
   let ol_file = "<ol>"
-  column_containing_files.forEach((el)=>{ol_file += `<li>${el}</li>`})
+  column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this)">Open File</button></li>`})
   ol_file += "</ol>"
   document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el.textContent}</h3>${ol_file}`;
 }
 
-
+// fill up with similar Columns
+function fillUpSimilarColumns(){
+  similar_columns.forEach((el)=>{
+    Array.from(document.getElementsByClassName("input-columns")).at(-1).value = el
+    Array.from(document.getElementsByClassName("output-column")).at(-1).value = el
+    addInputOutput();
+  })
+}
 
 // Combine Files
 async function combineFiles(){

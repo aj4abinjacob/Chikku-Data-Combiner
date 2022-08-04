@@ -1,4 +1,5 @@
 from importlib.metadata import files
+import os
 import re
 import pandas as pd
 import eel
@@ -24,6 +25,12 @@ def readDf(file):
     elif file.endswith(".xlsx") or file.endswith(".xls"):
         df = pd.read_excel(file)
     return df
+
+
+@eel.expose
+def fileOpen(file_path):
+    os.startfile(file_path.rstrip("Open File"))
+    return "File Opened"
 
 @eel.expose
 def getFiles():
