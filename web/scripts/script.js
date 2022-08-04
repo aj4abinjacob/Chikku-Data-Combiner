@@ -61,6 +61,7 @@ function updateColumnHighlight(){
   let user_input_values = []
   Array.from(document.getElementsByClassName("input-columns")).forEach((el) =>{
     el.value = el.value.replace(",,",",");
+    el.value = el.value.replace(/^,+|"+$/g, '');
     el.value.split(",").forEach((col)=>{user_input_values.push(col)})})
 
   Array.from(unique_columns).forEach(el=>{
@@ -95,6 +96,8 @@ function updateColumnHighlight(){
   }
   // Check to see if user has entered wrong input value for input columns
   Array.from(document.getElementsByClassName("output-column")).forEach((el,ind)=>{
+    el.value = el.value.replace(",,",",");
+    el.value = el.value.replace(/^,+|"+$/g, '');
       if(el.value === ""){
         invalid_output_cols = true;
         invalid_cols_log += `\nYou haven't filled ${ind+1}${nth(ind+1)} output column`;
@@ -105,25 +108,40 @@ function updateColumnHighlight(){
 
 }
 
+let col_btn_focus;
+function setCurrentFocus(el){
+  col_btn_focus = el
+}
+
+function sendValueToFocus(el){
+  if((col_btn_focus.classList.contains("input-columns"))||(col_btn_focus.classList.contains("output-column"))){
+      col_btn_focus.value += `,${el.textContent}`
+  }
+}
 
 function addInputOutput(){
   let inp_out_div = document.createElement("div");
   inp_out_div.setAttribute("class","col-in-out-container");
   let output_column = document.createElement("input");
   output_column.setAttribute("class","output-column")
+  output_column.setAttribute("onclick","setCurrentFocus(this)");
+  output_column.setAttribute("onfocus","setCurrentFocus(this)");
   output_column.setAttribute("placeholder","Output Column")
   let input_columns = document.createElement("input");
   input_columns.setAttribute("class","input-columns");
+  input_columns.setAttribute("onclick","setCurrentFocus(this)");
+  input_columns.setAttribute("onfocus","setCurrentFocus(this)");
   input_columns.setAttribute("placeholder","Input Columns");
-  input_columns.setAttribute("onkeydown","updateColumnHighlight()")
+  input_columns.setAttribute("onkeydown","updateColumnHighlight()");
   let rem_btn = document.createElement("button");
   rem_btn.innerHTML = "Remove";
   rem_btn.setAttribute("class","col-inp-rm-btn");
-  rem_btn.setAttribute("onclick","removeInpOut(this)")
+  rem_btn.setAttribute("onclick","removeInpOut(this)");
   inp_out_div.appendChild(output_column);
   inp_out_div.appendChild(input_columns);
   inp_out_div.appendChild(rem_btn);
-  $(inp_out_div).insertBefore("#col-add-btn-container")
+  $(inp_out_div).insertBefore("#col-add-btn-container");
+  output_column.focus()
   bigAutocomplete();
   $("#col-add-btn-container")[0].scrollIntoView({
     behavior: "smooth", // or "auto" or "instant"
@@ -292,7 +310,7 @@ function nextProcess(el){
       Array.from(unique_columns).sort(Intl.Collator().compare).forEach((el)=>{
         let col_btn = document.createElement("button");
         col_btn.setAttribute("class","col-btn");
-       
+        col_btn.setAttribute("onclick","sendValueToFocus(this)")
         // col_btn.setAttribute("onmouseover","showColumnInfo(this)")
         col_btn.innerText = el;
         $("#all-columns-container").append(col_btn);
@@ -310,7 +328,7 @@ function nextProcess(el){
           column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this)">Open File</button></li>`})
           ol_file += "</ol>"
           document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el}</h3>${ol_file}`;
-        }, 2000);
+        }, 1500);
         }, function() {
             // on mouse out, cancel the timer
             clearTimeout(timer);
