@@ -328,7 +328,7 @@ function nextProcess(el){
           column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this)">Open File</button></li>`})
           ol_file += "</ol>"
           document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el}</h3>${ol_file}`;
-        }, 1500);
+        }, 1000);
         }, function() {
             // on mouse out, cancel the timer
             clearTimeout(timer);
