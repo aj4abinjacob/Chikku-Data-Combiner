@@ -10,6 +10,14 @@ from tkinter import Label
 eel.init('web')
 eel.start("main.html", mode='default', block=False)
 
+
+def readSampleDf(file):
+    if file.endswith(".csv") or file.endswith(".tsv"):
+        df = pd.read_csv(file, low_memory=False,nrows=10)
+    elif file.endswith(".xlsx") or file.endswith(".xls"):
+        df = pd.read_excel(file, nrows=10)
+    return df
+
 def readDf(file):
     if file.endswith(".csv") or file.endswith(".tsv"):
         df = pd.read_csv(file, low_memory=False)
@@ -29,8 +37,7 @@ def getFiles():
     extensions = ["csv", "tsv", "xlsx","xls"]
     file_names = list(filter(lambda x: x.split(
         ".")[-1] in extensions, file_names))
-    file_names = {file_name: pd.read_csv(
-        file_name, low_memory=False, nrows=2).columns.to_list() for file_name in file_names}
+    file_names = {file_name: readSampleDf(file_name).columns.to_list() for file_name in file_names}
     return file_names
 
 
@@ -54,7 +61,7 @@ def clearList():
 def combineFiles(file_col_inp):
     file = file_col_inp[0]
     rename_keys = columnCleansing(file_col_inp[1])
-    df = pd.read_csv(file,low_memory=False)
+    df = readDf(file)
     df = df[list(set(df.columns.tolist()) & (set(rename_keys.keys())))].copy()
     df = df.rename(columns=rename_keys).copy()
     all_files.append(df)
