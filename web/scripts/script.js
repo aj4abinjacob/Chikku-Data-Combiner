@@ -67,12 +67,21 @@ function updateColumnHighlight(){
   Array.from(unique_columns).forEach(el=>{
     if(user_input_values.includes(el)){
       if (user_input_values.reduce((t,c)=>(c === el ? t+1 : t ),0) > 1){
-        $(`.col-btn:contains(${el})`).css("border","1px solid var(--delete-color)");  
-        $(`.col-btn:contains(${el})`).css("color","var(--delete-color)");
+        $(".col-btn").filter(function() {
+          return $(this).text() === el;
+      }).css("border","1px solid var(--delete-color)");  
+      $(".col-btn").filter(function() {
+        return $(this).text() === el;
+    }).css("color","var(--delete-color)");
         invalid_cols_log += `You have entered ${el} more than once`
       }else{
-        $(`.col-btn:contains(${el})`).css("border","1px solid var(--submit-color)");
-        $(`.col-btn:contains(${el})`).css("color"," var(--submit-color)");
+        $(".col-btn").filter(function() {
+          return $(this).text() === el;
+      }).css("border","1px solid var(--submit-color)");
+
+      $(".col-btn").filter(function() {
+        return $(this).text() === el;
+    }).css("color"," var(--submit-color)");
       }
       
     }else{
@@ -210,10 +219,8 @@ function bigAutocomplete(){
 
 // Open file
 
-async function openFile(el){
-  console.log(el.textContent)
-  const value = el.parentElement.textContent
-  const file_opened = await eel.fileOpen(value)
+async function openFile(file_path){
+  const file_opened = await eel.fileOpen(file_path)
 }
 
 
@@ -272,6 +279,12 @@ async function combineFiles(){
       document.getElementById("process-output").innerHTML = combine_status;
     }
     let final_output = await eel.finalCombine()();
+    if (final_output === "Saving files cancelled"){
+      $("#process-output").css("color","var(--delete-color");
+    }else{
+      $("#process-output").css("color","var(--submit-color");
+      $("#output-screen").append(`<button onclick = "${final_output.split(" saved as ")[1]}">Open File</button>`)
+    }
     document.getElementById("process-output").innerHTML = final_output;
     // console.log(final_output);
     document.getElementById("nav-btn").style.display = "inline-block";
@@ -325,7 +338,7 @@ function nextProcess(el){
           let column_containing_files = new Set 
           Object.keys(files_object).forEach((file)=>{if (files_object[file].includes(el)){column_containing_files.add(file)}})
           let ol_file = "<ol>"
-          column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this)">Open File</button></li>`})
+          column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this.parentElement.textContent)">Open File</button></li>`})
           ol_file += "</ol>"
           document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el}</h3>${ol_file}`;
         }, 1000);
