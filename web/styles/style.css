@@ -47,14 +47,14 @@ img {
     --header-font:'Montserrat', sans-serif;
     --header-color:hsl(33, 9%, 81%);
     --normal-font:'Montserrat', sans-serif;
-    --bg-color:hsl(200, 6%, 10%);
+    --bg-color:#131516;
     --font-color:hsl(0, 0%, 100%);
     --border-color:hsl(0, 0%, 52%);
     --default-border-radius: 8px;
     --default-shadow:0px 8px 12px;
     --nav-height:100px;
-    --delete-color:#E21717;
-    --submit-color:#0aaa42;
+    --delete-color:#fe2323;
+    --submit-color:#4fe778;
     --footer-height: 10vh;
 }
 
@@ -95,6 +95,8 @@ footer{
     width: 20vw;
     right: 0;
     display: flex;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
     align-items: center;
     justify-content: flex-end;
 }
