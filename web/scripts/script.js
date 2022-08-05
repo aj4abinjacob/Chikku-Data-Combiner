@@ -17,7 +17,6 @@ function columnsUpdate(){
 
 }
 
-
 function fileRemove(el){
     let parent_element = el.parentElement;
     delete files_object[parent_element.getElementsByClassName("file-name")[0].textContent];
@@ -134,6 +133,7 @@ function updateColumnHighlight(){
     })
 }
 
+// To set focus for sending value from a column button
 let col_btn_focus;
 function setCurrentFocus(el){
   col_btn_focus = el
@@ -145,6 +145,7 @@ function sendValueToFocus(el){
   }
 }
 
+// To add input output column
 function addInputOutput(){
   let inp_out_div = document.createElement("div");
   inp_out_div.setAttribute("class","col-in-out-container");
@@ -179,6 +180,7 @@ function removeInpOut(el){
   el.parentElement.remove();
 }
 
+// To Autocomplete on typing column names
 function bigAutocomplete(){
     // Auto complete
         // Single Auto Complete for output column
