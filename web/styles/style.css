@@ -212,6 +212,7 @@ main{
   }
 .file-list  li:before {
     content: counter(item);
+    width: 2rem;
     text-align: center;
   }
 
@@ -219,10 +220,6 @@ main{
     flex-grow: 3;
 }
 
-.file-name::before{
-    content:".";
-    margin-right: .4rem;
-}
 
 /* combine screen */
 .combine-screen{
