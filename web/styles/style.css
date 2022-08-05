@@ -52,11 +52,31 @@ img {
     --border-color:hsl(0, 0%, 52%);
     --default-border-radius: 8px;
     --default-shadow:0px 8px 12px;
+    --col-btn-shadow:0px 4px 8px;
     --nav-height:100px;
     --delete-color:#fe2323;
     --submit-color:#4fe778;
     --footer-height: 10vh;
 }
+
+::-webkit-scrollbar-track {
+    border: 5px solid white;
+    /* //border color does not support transparent on scrollbar */
+    border-color: transparent;
+    background-color: #b2bec3;
+    margin-block: 0.5em;
+    border-radius: 100vw;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    /* background-color: #dfe6e9; */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #80838d;
+    border-radius: 100vw;
+  }
 
 
 *{
@@ -222,9 +242,18 @@ main{
     gap: 1rem;
     flex-direction: column;
     align-items: stretch;
-    padding: 1rem;
+    padding: 0 1rem 1rem 1rem;
     height:70vh;
     overflow-y: auto;
+}
+
+.user-input h2{
+    position: -webkit-sticky;
+    top:0;
+    position: sticky;
+    /* height: fit-content; */
+    margin-bottom: .5rem;
+    background: var(--bg-color);
 }
 
 #col-add-btn-container{
@@ -296,6 +325,14 @@ main{
     border: 1px solid hsl(277, 100%, 66%);
 }
 
+.col-btn{
+    transition-property: box-shadow;
+    transition-delay: 1s;
+}
+
+.col-btn:hover{
+    box-shadow: var(--col-btn-shadow) white;
+}
 
 #all-columns-container button:hover{
     border: 1px solid white;
@@ -304,6 +341,7 @@ main{
 .all-columns-header{
     display: flex;
     gap: 1rem;
+    margin-bottom: .5rem;
 }
 
 .all-columns-header button{
@@ -348,6 +386,7 @@ main{
     z-index: 2;
     display: none;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }

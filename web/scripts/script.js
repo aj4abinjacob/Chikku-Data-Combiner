@@ -240,6 +240,10 @@ async function openFile(file_path){
   const file_opened = await eel.fileOpen(file_path)
 }
 
+async function openFolderJS(folder_path){
+  const open_folder = await eel.openFolder(folder_path)
+}
+
 
 // Show column info 
 // function showColumnInfo(el){
@@ -300,7 +304,8 @@ async function combineFiles(){
       $("#process-output").css("color","var(--delete-color");
     }else{
       $("#process-output").css("color","var(--submit-color");
-      $("#output-screen").append(`<button onclick = "${final_output.split(" saved as ")[1]}">Open File</button>`)
+      let folder_path = final_output.split(" saved as ")[1].split("/").slice(0,-1).join("/")
+      $("#output-screen").append(`<br/><button onclick = "openFolderJS('${folder_path}')">Open Folder</button>`)
     }
     document.getElementById("process-output").innerHTML = final_output;
     // console.log(final_output);

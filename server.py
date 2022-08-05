@@ -7,6 +7,7 @@ from tkinter.filedialog import asksaveasfilename
 from tkinter.filedialog import askopenfilenames
 from tkinter import Tk
 from tkinter import Label
+import webbrowser
 
 eel.init('web')
 eel.start("main.html", mode='default', block=False)
@@ -31,6 +32,11 @@ def readDf(file):
 def fileOpen(file_path):
     os.startfile(file_path.rstrip("Open File"))
     return "File Opened"
+
+@eel.expose
+def openFolder(folder_path):
+    webbrowser.open(folder_path)
+    return "Folder Opened"
 
 @eel.expose
 def getFiles():
