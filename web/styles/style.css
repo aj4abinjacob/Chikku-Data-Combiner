@@ -177,6 +177,9 @@ main{
     gap:.5rem;
 }
 
+.input-screen-buttons button:last-of-type{
+    margin-left: 1rem;
+}
 
 .input-screen-buttons button:hover{
     border-color: 1px solid var(--submit-color);

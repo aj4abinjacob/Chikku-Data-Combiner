@@ -1,6 +1,8 @@
+from glob import glob
 from importlib.metadata import files
 import os
 import re
+from tkinter import filedialog
 import pandas as pd
 import eel
 from tkinter.filedialog import asksaveasfilename
@@ -38,14 +40,23 @@ def openFolder(folder_path):
     webbrowser.open(folder_path)
     return "Folder Opened"
 
+
+
 @eel.expose
-def getFiles():
+def getFiles(get_folder="False"):
     root = Tk()
     root.wm_attributes("-topmost", 1)
     root.wm_state("iconic")
-    file_names = askopenfilenames(
-        title="Open 'csv','xls'files", parent=root
-    )
+    file_names = []
+    if get_folder == "True":
+        folder_path = filedialog.askdirectory()
+        for path, subdir, files in os.walk(folder_path):
+            for file in glob(os.path.join(path, "*.csv")):
+                file_names.append(file)
+    else:
+        file_names = askopenfilenames(
+            title="Open 'csv','xls'files", parent=root
+        )
     root.destroy()
     extensions = ["csv", "tsv", "xlsx","xls"]
     file_names = list(filter(lambda x: x.split(

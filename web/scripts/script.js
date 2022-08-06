@@ -43,8 +43,8 @@ function createFileName(file_name,cols){
     
 }
 
-async function getFiles() {
-    files_returned = await eel.getFiles()();
+async function getFiles(open_folder="False") {
+    files_returned = await eel.getFiles(open_folder)();
     Object.keys(files_returned).forEach((file)=>{ if (file.length !== 0){
         createFileName(file,files_returned[file]);
         document.getElementsByClassName("footer-btn")[0].style.display = "inline-block";
