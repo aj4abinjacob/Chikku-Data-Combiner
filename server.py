@@ -48,10 +48,9 @@ def getFiles(get_folder="False"):
     root.wm_attributes("-topmost", 1)
     root.wm_state("iconic")
     file_names = []
-    extensions = ["csv", "tsv", "xlsx","xls"]
     if get_folder == "True":
         folder_path = filedialog.askdirectory(title="This will select all 'csv','tsv', 'xls' or 'xlsx' files in all sub directories")
-        for ext in extensions:
+        for ext in ["*.csv", "*.tsv", "*.xlsx","*.xls"]:
             for path, subdir, files in os.walk(folder_path):
                 for file in glob(os.path.join(path, ext)):
                     file_names.append(file)
@@ -60,6 +59,7 @@ def getFiles(get_folder="False"):
             title="Open 'csv','tsv', 'xls' or 'xlsx' files", parent=root
         )
     root.destroy()
+    extensions = ["csv", "tsv", "xlsx","xls"]
     file_names = list(filter(lambda x: x.split(
         ".")[-1] in extensions, file_names))
     file_names = {file_name: readSampleDf(file_name).columns.to_list() for file_name in file_names}
