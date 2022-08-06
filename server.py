@@ -95,7 +95,7 @@ def combineFiles(file_col_inp):
 
 @eel.expose
 def finalCombine():
-    df = pd.concat(all_files,axis=1)
+    df = pd.concat(all_files)
     root = Tk()  # this is to close the dialogue box later
     root.wm_attributes("-topmost", 1)
     root.wm_state("iconic")
