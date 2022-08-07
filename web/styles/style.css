@@ -217,7 +217,7 @@ main{
 .file-list li {
     counter-increment: item;
   }
-.file-list  li:before {
+.file-list  li::before {
     content: counter(item);
     width: 2rem;
     text-align: center;
@@ -375,13 +375,25 @@ main{
     gap: 1rem;
     align-content: flex-start;
     padding: 1.5rem;
+    counter-reset: item;
 }
 #column-info li{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; 
     align-items: center;
+    counter-increment: item;
     width: 100%;
 }
+
+#column-info li > button{
+    margin-left: auto;
+}
+
+#column-info li::before{
+    content: counter(item);
+    width: 1rem;
+}
+
 #column-info button{
     margin: .7rem 1rem;
 }
