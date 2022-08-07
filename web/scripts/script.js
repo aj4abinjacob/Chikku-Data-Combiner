@@ -353,6 +353,7 @@ async function combineFiles(){
       $("#process-output").css("color","var(--submit-color");
       let folder_path = final_output.split(" saved as ")[1].split("/").slice(0,-1).join("/")
       $("#output-screen").append(`<br/><button onclick = "openFolderJS('${folder_path}')">Open Folder</button>`)
+      document.querySelectorAll("footer p")[0].style.visibility = "visible";
     }
     document.getElementById("process-output").innerHTML = final_output;
     // console.log(final_output);
@@ -438,6 +439,8 @@ function goBack(){
     $("#output-screen").hide();
     $("#combine-screen").show();
     $("#submit-btn").show();
-    document.getElementById("process-output").innerHTML = ""
+    document.getElementById("process-output").innerHTML = "";
+    if (document.querySelectorAll("#output-screen button")[0]) {document.querySelectorAll("#output-screen button")[0].remove()};
+    document.querySelectorAll("footer p")[0].style.visibility = "hidden";
   } 
 }

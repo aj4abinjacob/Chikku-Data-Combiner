@@ -89,12 +89,12 @@ def combineFiles(file_col_inp):
     df = df[list(set(df.columns.tolist()) & (set(rename_keys.keys())))].copy()
     df = df.rename(columns=rename_keys).copy()
     all_files.append(df)
-    return f"Formating {file}"
+    return f"Transforming {file}"
 
 
 @eel.expose
 def finalCombine():
-    df = pd.concat(all_files)
+    df = pd.concat(all_files,ignore_index=True)
     root = Tk()  # this is to close the dialogue box later
     root.wm_attributes("-topmost", 1)
     root.wm_state("iconic")
