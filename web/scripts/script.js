@@ -2,7 +2,7 @@
 let columns,similar_columns,unique_columns,files_returned,files_object;
 
 // Global input output error check variables
-let invalid_input_cols, invalid_output_cols, multiple_same_input_cols, invalid_cols_log;
+let invalid_input_cols, invalid_output_cols, multiple_same_input_cols, invalid_cols_log, duplicated_output_cols;
 
 
 
@@ -266,6 +266,45 @@ function fillUpSimilarColumns(){
   })
 }
 
+function findDupOutputCols(){
+  col_python_dict_input = {};
+  // get user entered values
+  out_dict = {};
+  duplicated_output_cols = "";
+  Array.from(document.getElementsByClassName("col-in-out-container")).forEach((el)=>{
+    col_python_dict_input[el.getElementsByClassName("output-column")[0].value] = el.getElementsByClassName("input-columns")[0].value
+  })
+
+Object.keys(col_python_dict_input).forEach((key)=>{
+  for (const col of col_python_dict_input[key].replace(/^,+|,+$/g, '').split(",")){
+    out_dict[col] = key
+  }
+})
+
+  Object.keys(files_object).forEach(
+    (file)=>{
+      transformed_file_columns = []
+      files_object[file].forEach((col)=>{
+        if(Object.keys(out_dict).includes(col)){
+          transformed_file_columns.push(out_dict[col]);
+        }})
+        const occurrences = transformed_file_columns.reduce(function (acc, curr) {
+          return acc[curr] ? ++acc[curr] : acc[curr] = 1, acc
+        }, {});
+       Object.keys(occurrences).forEach((col_key)=>{
+          if(occurrences[col_key] > 1){
+            duplicated_output_cols += `\nThe column "${col_key}" is appearing more than once in the file "${file}" with current input output configuration.`
+          }
+       }
+       )  
+
+    } // file loop ends here
+  )
+  return duplicated_output_cols
+}
+
+
+
 // Combine Files
 async function combineFiles(){
   // final cleanup
@@ -275,11 +314,17 @@ async function combineFiles(){
     })
   }
   )
+  // 
+
+  // 
   updateColumnHighlight();
+  duplicated_output_cols = findDupOutputCols();
+  // End of final check
+
   // check to see if there are any errors before combining
   if ((invalid_input_cols)||(invalid_output_cols)||($(".input-columns").length === 0) || invalid_cols_log.includes("more than once")
-   || ($(".output-column").length ===0)){
-      alert(`Please give valid input before submitting. \n${invalid_cols_log}`);
+   || ($(".output-column").length ===0) || (duplicated_output_cols !== "")){
+      alert(`Please give valid input before submitting. \n${invalid_cols_log+=duplicated_output_cols}`);
   }else{
     // Clear existing python df list if any
     let is_df_li_clear = await eel.clearList()();

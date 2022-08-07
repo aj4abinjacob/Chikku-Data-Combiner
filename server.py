@@ -1,14 +1,11 @@
 from glob import glob
-from importlib.metadata import files
 import os
-import re
 from tkinter import filedialog
 import pandas as pd
 import eel
 from tkinter.filedialog import asksaveasfilename
 from tkinter.filedialog import askopenfilenames
 from tkinter import Tk
-from tkinter import Label
 import webbrowser
 
 eel.init('web')
@@ -17,10 +14,11 @@ eel.start("main.html", mode='default', block=False)
 
 def readSampleDf(file):
     if file.endswith(".csv") or file.endswith(".tsv"):
-        df = pd.read_csv(file, low_memory=False,nrows=10)
+        df = pd.read_csv(file, low_memory=False, nrows=10)
     elif file.endswith(".xlsx") or file.endswith(".xls"):
         df = pd.read_excel(file, nrows=10)
     return df
+
 
 def readDf(file):
     if file.endswith(".csv") or file.endswith(".tsv"):
@@ -35,11 +33,11 @@ def fileOpen(file_path):
     os.startfile(file_path.rstrip("Open File"))
     return "File Opened"
 
+
 @eel.expose
 def openFolder(folder_path):
     webbrowser.open(folder_path)
     return "Folder Opened"
-
 
 
 @eel.expose
@@ -49,8 +47,9 @@ def getFiles(get_folder="False"):
     root.wm_state("iconic")
     file_names = []
     if get_folder == "True":
-        folder_path = filedialog.askdirectory(title="This will select all 'csv','tsv', 'xls' or 'xlsx' files in all sub directories")
-        for ext in ["*.csv", "*.tsv", "*.xlsx","*.xls"]:
+        folder_path = filedialog.askdirectory(
+            title="This will select all 'csv','tsv', 'xls' or 'xlsx' files in all sub directories")
+        for ext in ["*.csv", "*.tsv", "*.xlsx", "*.xls"]:
             for path, subdir, files in os.walk(folder_path):
                 for file in glob(os.path.join(path, ext)):
                     file_names.append(file)
@@ -59,27 +58,27 @@ def getFiles(get_folder="False"):
             title="Open 'csv','tsv', 'xls' or 'xlsx' files", parent=root
         )
     root.destroy()
-    extensions = ["csv", "tsv", "xlsx","xls"]
+    extensions = ["csv", "tsv", "xlsx", "xls"]
     file_names = list(filter(lambda x: x.split(
         ".")[-1] in extensions, file_names))
-    file_names = {file_name: readSampleDf(file_name).columns.to_list() for file_name in file_names}
+    file_names = {file_name: readSampleDf(
+        file_name).columns.to_list() for file_name in file_names}
     return file_names
-
 
 
 def columnCleansing(col_dict):
     out_dict = {}
-    for k,v in col_dict.items():
+    for k, v in col_dict.items():
         for i in v.strip(",").split(","):
             out_dict[i] = k
     return out_dict
+
 
 @eel.expose
 def clearList():
     global all_files
     all_files = []
     return "Done clearing df list"
-
 
 
 @eel.expose
@@ -119,6 +118,7 @@ def finalCombine():
         user_output = "Saving files cancelled"
     root.destroy()
     return user_output
+
 
 while True:
     eel.sleep(10)
