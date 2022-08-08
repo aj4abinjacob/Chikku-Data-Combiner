@@ -1,6 +1,6 @@
 # Chikku Data Combiner
 
-## A simple program used for combining multiple data files.
+#### A simple program used for combining multiple data formats
 
 Chikku uses html,css and javascript as front end while it uses python as back end.
 
