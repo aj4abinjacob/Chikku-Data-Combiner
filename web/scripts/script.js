@@ -192,6 +192,22 @@ function removeInpOut(el){
   updateColumnHighlight();
 }
 
+let keys = {}
+function handleKeyPress(evt) {
+  let { keyCode, type } = evt || Event; // to deal with IE
+  let isKeyDown = (type == 'keydown');
+  keys[keyCode] = isKeyDown;
+
+  // test: enter & shift key pressed down 
+  if(isKeyDown && keys[13] && keys[16] && ((col_btn_focus.classList.contains("input-columns"))||(col_btn_focus.classList.contains("output-column")))){
+    addInputOutput();
+  }
+};
+
+window.addEventListener("keyup", handleKeyPress);
+window.addEventListener("keydown", handleKeyPress);
+
+
 // To Autocomplete on typing column names
 function bigAutocomplete(){
     // Auto complete
@@ -336,8 +352,8 @@ async function combineFiles(){
   // check to see if there are any errors before combining
   if ((invalid_input_cols)||(invalid_output_cols)||($(".input-columns").length === 0) || invalid_cols_log.includes("more than once")
    || ($(".output-column").length ===0) || (duplicated_output_cols !== "")){
-      alert(`Please give valid input before submitting. \n${invalid_cols_log+=duplicated_output_cols}`);
-  }else{
+     alert(`Please give valid input before submitting. \n${invalid_cols_log+=duplicated_output_cols}`);
+    }else{
     // Clear existing python df list if any
     let is_df_li_clear = await eel.clearList()();
     // console.log(is_df_li_clear);
@@ -389,53 +405,55 @@ function clearInvalidEntries(){
 
 // footer button
 function nextProcess(el){
-    if (el.textContent === 'Select Columns'){
-      document.getElementById("all-columns-container").innerHTML = "";
-      clearInvalidEntries();
-        columnsUpdate();
-        document.getElementById("nav-btn").style.display = "inline-block";
-        document.getElementById("input-screen").style.display = "none";
-        document.getElementById("combine-screen").style.display = "flex";
-        // Add a single input out div
-        if(document.getElementsByClassName("col-in-out-container").length === 0){addInputOutput()};
-        // Add a single auto complete for existing input output div
-        bigAutocomplete();
-        
-
-      // Adding all columns
-      Array.from(unique_columns).sort(Intl.Collator().compare).forEach((el)=>{
-        let col_btn = document.createElement("button");
-        col_btn.setAttribute("class","col-btn");
-        col_btn.setAttribute("onclick","sendValueToFocus(this)")
-        // col_btn.setAttribute("onmouseover","showColumnInfo(this)")
-        col_btn.innerText = el;
-        $("#all-columns-container").append(col_btn);
-        document.getElementById("submit-btn").innerHTML = "Combine Files";
-      })
-
-      // For showing column info on hover
-      $('.col-btn').hover(function() {
-        // on mouse in, start a timeout
-        el =  $(this).text()
-        timer = setTimeout(function() {
-          let column_containing_files = new Set 
-          Object.keys(files_object).forEach((file)=>{if (files_object[file].includes(el)){column_containing_files.add(file)}})
-          let ol_file = "<ol>"
-          column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this.parentElement.textContent)">Open File</button></li>`})
-          ol_file += "</ol>"
-          document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el}</h3>${ol_file}`;
-        }, 1000);
-        }, function() {
-            // on mouse out, cancel the timer
-            clearTimeout(timer);
-        });
-        // ends here
-        
-      if (similar_columns.length === 0){$("#similar-btn").hide()}else{$("#similar-btn").show()} ;
-
-      } // if select columns end here
-      else if (el.textContent === "Combine Files") {
-        combineFiles();
+  if (el.textContent === 'Select Columns'){
+    document.getElementById("all-columns-container").innerHTML = "";
+    clearInvalidEntries();
+    columnsUpdate();
+    document.getElementById("nav-btn").style.display = "inline-block";
+    document.getElementById("input-screen").style.display = "none";
+    document.getElementById("combine-screen").style.display = "flex";
+    // Add a single input out div
+    if(document.getElementsByClassName("col-in-out-container").length === 0){addInputOutput()};
+    // Add a single auto complete for existing input output div
+    bigAutocomplete();
+    
+    col_btn_focus = Array.from(document.getElementsByClassName("output-column")).at(-1);
+    
+    // Adding all columns
+    Array.from(unique_columns).sort(Intl.Collator().compare).forEach((el)=>{
+      let col_btn = document.createElement("button");
+      col_btn.setAttribute("class","col-btn");
+      col_btn.setAttribute("onclick","sendValueToFocus(this)")
+      // col_btn.setAttribute("onmouseover","showColumnInfo(this)")
+      col_btn.innerText = el;
+      $("#all-columns-container").append(col_btn);
+      document.getElementById("submit-btn").innerHTML = "Combine Files";
+    })
+    
+    // For showing column info on hover
+    $('.col-btn').hover(function() {
+      // on mouse in, start a timeout
+      el =  $(this).text()
+      timer = setTimeout(function() {
+        let column_containing_files = new Set 
+        Object.keys(files_object).forEach((file)=>{if (files_object[file].includes(el)){column_containing_files.add(file)}})
+        let ol_file = "<ol>"
+        column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this.parentElement.textContent)">Open File</button></li>`})
+        ol_file += "</ol>"
+        document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el}</h3>${ol_file}`;
+      }, 1000);
+    }, function() {
+      // on mouse out, cancel the timer
+      clearTimeout(timer);
+    });
+    // ends here
+    
+    if (similar_columns.length === 0){$("#similar-btn").hide()}else{$("#similar-btn").show()} ;
+    
+  } // if select columns end here
+  else if (el.textContent === "Combine Files") {
+    col_btn_focus = document.getElementById("process-output");
+    combineFiles();
 
       }
     }
@@ -448,9 +466,12 @@ function goBack(){
     $("#input-screen").show();
     document.getElementById("submit-btn").innerHTML = "Select Columns"; 
     $("#nav-btn").hide();
+    col_btn_focus = document.getElementById("input-screen");
+    
   }else{
     $("#output-screen").hide();
     $("#combine-screen").show();
+    col_btn_focus = Array.from(document.getElementsByClassName("output-column")).at(-1);
     $("#submit-btn").show();
     document.getElementById("process-output").innerHTML = "";
     document.getElementById("process-output").style.color = "#fff";
