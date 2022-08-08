@@ -192,14 +192,19 @@ function removeInpOut(el){
   updateColumnHighlight();
 }
 
+function isHidden(el) {
+  return (el.offsetParent === null)
+}
+
 let keys = {}
 function handleKeyPress(evt) {
   let { keyCode, type } = evt || Event; // to deal with IE
   let isKeyDown = (type == 'keydown');
   keys[keyCode] = isKeyDown;
 
-  // test: enter & shift key pressed down 
-  if(isKeyDown && keys[13] && keys[16] && ((col_btn_focus.classList.contains("input-columns"))||(col_btn_focus.classList.contains("output-column")))){
+  // enter & shift key pressed down & combiner screen is visible
+  if(isKeyDown && keys[13] && keys[16] && ((col_btn_focus.classList.contains("input-columns"))||
+  (col_btn_focus.classList.contains("output-column"))) && (!isHidden(document.getElementById("combine-screen")))){
     addInputOutput();
   }
 };
@@ -407,6 +412,7 @@ function clearInvalidEntries(){
 function nextProcess(el){
   if (el.textContent === 'Select Columns'){
     document.getElementById("all-columns-container").innerHTML = "";
+    $("#output-screen").hide();
     clearInvalidEntries();
     columnsUpdate();
     document.getElementById("nav-btn").style.display = "inline-block";
@@ -452,9 +458,7 @@ function nextProcess(el){
     
   } // if select columns end here
   else if (el.textContent === "Combine Files") {
-    col_btn_focus = document.getElementById("process-output");
     combineFiles();
-
       }
     }
 
@@ -465,13 +469,10 @@ function goBack(){
     $("#output-screen").hide();
     $("#input-screen").show();
     document.getElementById("submit-btn").innerHTML = "Select Columns"; 
-    $("#nav-btn").hide();
-    col_btn_focus = document.getElementById("input-screen");
-    
+    $("#nav-btn").hide();   
   }else{
     $("#output-screen").hide();
     $("#combine-screen").show();
-    col_btn_focus = Array.from(document.getElementsByClassName("output-column")).at(-1);
     $("#submit-btn").show();
     document.getElementById("process-output").innerHTML = "";
     document.getElementById("process-output").style.color = "#fff";
