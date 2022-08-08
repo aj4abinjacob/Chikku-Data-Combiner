@@ -5,7 +5,7 @@
 Chikku uses html,css and javascript as front end while it uses python as back end.
 
 
-## Currently supported file  
+## Currently supported file formats
 1. CSV
 2. TSV
 3. Excel
