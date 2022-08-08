@@ -346,6 +346,7 @@ async function combineFiles(){
       // console.log(combine_status);
       document.getElementById("process-output").innerHTML = combine_status;
     }
+    document.getElementById("process-output").innerHTML = "Saving file..."
     let final_output = await eel.finalCombine()();
     if (final_output === "Saving files cancelled"){
       $("#process-output").css("color","var(--delete-color");
@@ -440,6 +441,7 @@ function goBack(){
     $("#combine-screen").show();
     $("#submit-btn").show();
     document.getElementById("process-output").innerHTML = "";
+    document.getElementById("process-output").style.color = "#fff";
     if (document.querySelectorAll("#output-screen button")[0]) {document.querySelectorAll("#output-screen button")[0].remove()};
     document.querySelectorAll("footer p")[0].style.visibility = "hidden";
   } 
