@@ -148,8 +148,11 @@ function setCurrentFocus(el){
 function sendValueToFocus(el){
   if((col_btn_focus.classList.contains("input-columns"))||(col_btn_focus.classList.contains("output-column"))){
       col_btn_focus.value += `,${el.textContent}`
+      updateColumnHighlight();
   }
 }
+
+
 
 // To add input output column
 function addInputOutput(){
@@ -166,6 +169,7 @@ function addInputOutput(){
   input_columns.setAttribute("onfocus","setCurrentFocus(this)");
   input_columns.setAttribute("placeholder","Input Columns");
   input_columns.setAttribute("onkeydown","updateColumnHighlight()");
+  input_columns.setAttribute("onkeyup","updateColumnHighlight()");
   let rem_btn = document.createElement("button");
   rem_btn.innerHTML = "Remove";
   rem_btn.setAttribute("class","col-inp-rm-btn");
@@ -185,6 +189,7 @@ function addInputOutput(){
 
 function removeInpOut(el){
   el.parentElement.remove();
+  updateColumnHighlight();
 }
 
 // To Autocomplete on typing column names
