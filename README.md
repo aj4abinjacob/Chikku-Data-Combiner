@@ -4,6 +4,12 @@
 
 Chikku uses html,css and javascript as front end while it uses python as back end.
 
+
+## Currently supported file  
+1. CSV
+2. TSV
+3. Excel
+
 ## Libraries Used
 1. [eel](https://github.com/ChrisKnott/Eel) ❤️
    - Used for connecting Python and JavaScript
@@ -11,3 +17,4 @@ Chikku uses html,css and javascript as front end while it uses python as back en
    - Used for reading file, columns and for combining
 2. Jquery
    - Mainly used for auto suggestion
+
