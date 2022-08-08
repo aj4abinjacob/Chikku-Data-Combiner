@@ -1,8 +1,8 @@
 # Chikku Data Combiner
 
-## A simple program used for combining multiple csv files.
+## A simple program used for combining multiple data files.
 
-Chikku uses html,css and javascript as front end and in the back end it uses python  
+Chikku uses html,css and javascript as front end while it uses python in the back end.
 
 ## Libraries Used
 1. [eel](https://github.com/ChrisKnott/Eel) ❤️
