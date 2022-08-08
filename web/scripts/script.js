@@ -22,7 +22,13 @@ function fileRemove(el){
     delete files_object[parent_element.getElementsByClassName("file-name")[0].textContent];
     if ( Object.keys(files_object).length !== 0) {columnsUpdate();}
     parent_element.remove();
-    if (Object.keys(files_object).length === 0){document.getElementsByClassName("footer-btn")[0].style.display = "none"};
+    if (Object.keys(files_object).length === 0){
+      document.getElementsByClassName("footer-btn")[0].style.display = "none";
+      if(document.querySelectorAll(".col-in-out-container")){
+        Array.from(document.querySelectorAll(".col-in-out-container")).forEach((el)=>{el.remove()})
+      }
+    };
+
 }
 
 function createFileName(file_name,cols){
@@ -173,7 +179,8 @@ function addInputOutput(){
   $("#col-add-btn-container")[0].scrollIntoView({
     behavior: "smooth", // or "auto" or "instant"
     block: "start" // or "end"
-});
+  });
+  updateColumnHighlight();
 }
 
 function removeInpOut(el){
