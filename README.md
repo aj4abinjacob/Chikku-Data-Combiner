@@ -2,7 +2,7 @@
 
 #### A simple program used for combining multiple data formats
 
-Chikku uses html,css and javascript as front end while it uses python as back end.
+Chikku uses html,css and javascript as front end, while it uses python as back end.
 
 
 ## Currently supported file formats
