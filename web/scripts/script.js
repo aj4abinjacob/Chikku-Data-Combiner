@@ -448,7 +448,9 @@ function nextProcess(el){
         column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this.parentElement.textContent)">Open File</button></li>`})
         ol_file += "</ol>"
         document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3 id="column-info-header">${el}</h3>${ol_file}`;
-        document.getElementById("column-info-header").style.border = `1px solid ${["#25CCF7","#383CC1","#D6A2E8","#00D84A","#DDD101","#E03B8B","#E21717"].at(Math.floor(Math.random() * 7))}` 
+        document.getElementById("column-info-header").style.boxShadow = `var(--col-btn-shadow) white`;
+        const changeBorder = ()=>{document.getElementById("column-info-header").style.boxShadow = "none"}
+        setTimeout(changeBorder,1500);
       }, 1500);
     }, function() {
       // on mouse out, cancel the timer
