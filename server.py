@@ -10,7 +10,7 @@ import webbrowser
 
 eel.init('web')
 try:
-    eel.start("main.html", block=False)
+    eel.start("main.html", block=False, size=[1680,1050], cmdline_args=["--disable-plugins"])
 except:
     eel.start("main.html", mode="default", block=False)
 
