@@ -9,7 +9,11 @@ from tkinter import Tk
 import webbrowser
 
 eel.init('web')
-eel.start("main.html", mode='default', block=False)
+try:
+    eel.start("main.html", block=False)
+except:
+    eel.start("main.html", mode="default", block=False)
+
 
 
 def readSampleDf(file):
