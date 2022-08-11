@@ -50,14 +50,22 @@ function createFileName(file_name,cols){
 }
 
 async function getFiles(open_folder="False") {
+    Array.from(document.getElementsByClassName("input-file-btn")).forEach((el)=>{
+      el.disabled = true;
+    })
+    document.querySelector(".file-select-output").textContent = "Reading files...";
     files_returned = await eel.getFiles(open_folder)();
     Object.keys(files_returned).forEach((file)=>{ if (file.length !== 0){
-        createFileName(file,files_returned[file]);
-        document.getElementsByClassName("footer-btn")[0].style.display = "inline-block";
-        }
+      createFileName(file,files_returned[file]);
+      document.getElementsByClassName("footer-btn")[0].style.display = "inline-block";
+    }
        }
     );
-}
+    Array.from(document.getElementsByClassName("input-file-btn")).forEach((el)=>{
+      el.disabled = false;
+    })
+    document.querySelector(".file-select-output").textContent = "Select your files";
+  }
 
 
 
@@ -280,18 +288,11 @@ async function openFolderJS(folder_path){
 }
 
 
-// Show column info 
-// function showColumnInfo(el){
-//   let column_containing_files = new Set 
-//   Object.keys(files_object).forEach((file)=>{if (files_object[file].includes(el.textContent)){column_containing_files.add(file)}})
-//   let ol_file = "<ol>"
-//   column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this)">Open File</button></li>`})
-//   ol_file += "</ol>"
-//   document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el.textContent}</h3>${ol_file}`;
-// }
+
 
 // fill up with similar Columns
 function fillUpSimilarColumns(){
+  if(document.getElementsByClassName("input-columns").length === 0){addInputOutput()};
   similar_columns.forEach((el)=>{
     Array.from(document.getElementsByClassName("input-columns")).at(-1).value = el
     Array.from(document.getElementsByClassName("output-column")).at(-1).value = el
@@ -446,8 +447,9 @@ function nextProcess(el){
         let ol_file = "<ol>"
         column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this.parentElement.textContent)">Open File</button></li>`})
         ol_file += "</ol>"
-        document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3>${el}</h3>${ol_file}`;
-      }, 1000);
+        document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3 id="column-info-header">${el}</h3>${ol_file}`;
+        document.getElementById("column-info-header").style.border = `1px solid ${["#25CCF7","#383CC1","#D6A2E8","#00D84A","#DDD101","#E03B8B","#E21717"].at(Math.floor(Math.random() * 7))}` 
+      }, 1500);
     }, function() {
       // on mouse out, cancel the timer
       clearTimeout(timer);

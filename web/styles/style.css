@@ -339,7 +339,7 @@ main{
 
 .col-btn{
     transition-property: box-shadow;
-    transition-delay: 1s;
+    transition-delay: 1500ms;
 }
 
 .col-btn:hover{
