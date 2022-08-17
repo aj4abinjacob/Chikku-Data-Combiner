@@ -415,3 +415,8 @@ main{
     align-items: center;
 }
 
+.hover-file-li{
+    border-radius: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+}

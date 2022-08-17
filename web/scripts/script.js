@@ -65,12 +65,10 @@ async function getFiles(open_folder="False") {
       el.disabled = false;
     })
     document.querySelector(".file-select-output").textContent = "Select your files";
-  }
+  }// done with input screen
 
 
 
-
-// done with input screen
 function nth(n){return [,'st','nd','rd'][n%100>>3^1&&n%10]||'th'}
 function updateColumnHighlight(){
   invalid_cols_log = ''
@@ -445,11 +443,16 @@ function nextProcess(el){
         let column_containing_files = new Set 
         Object.keys(files_object).forEach((file)=>{if (files_object[file].includes(el)){column_containing_files.add(file)}})
         let ol_file = "<ol>"
-        column_containing_files.forEach((el)=>{ol_file += `<li>${el}<button class="open-file-btn" onclick="openFile(this.parentElement.textContent)">Open File</button></li>`})
+        column_containing_files.forEach((el)=>{ol_file += `<li class="hover-file-li">${el}<button class="open-file-btn" onclick="openFile(this.parentElement.textContent)">Open File</button></li>`})
         ol_file += "</ol>"
         document.getElementById("column-info").innerHTML = `<h2>Column Info</h2><h3 id="column-info-header">${el}</h3>${ol_file}`;
-        document.getElementById("column-info-header").style.boxShadow = `var(--col-btn-shadow) white`;
-        const changeBorder = ()=>{document.getElementById("column-info-header").style.boxShadow = "none"}
+        document.getElementById("column-info-header").style.boxShadow = `var(--col-btn-shadow) hsl(234, 63%, 46%)`;
+        Array.from(document.getElementsByClassName("hover-file-li")).forEach((el)=>{el.style.boxShadow = "var(--col-btn-shadow) hsl(234, 63%, 46%)"})
+        const changeBorder = ()=>{
+          document.getElementById("column-info-header").style.boxShadow = "none";
+          Array.from(document.getElementsByClassName("hover-file-li")).forEach((el)=>{el.style.boxShadow = "none"})
+
+        }
         setTimeout(changeBorder,1500);
       }, 1500);
     }, function() {
