@@ -58,7 +58,11 @@
         <div></div>
         <p>Made with ❤️ from Abin Jacob<br/>
         github.com/aj4abinjacob</p>
-        <button class="footer-btn" id="submit-btn" onclick="nextProcess(this)">Select Columns</button>
+        <div class="footer-btn-div">
+            <input type="checkbox" name="process" value="process" class="process-data-check">
+            <label for="process" class="process-data-check">Process Data</label>
+            <button class="footer-btn" id="submit-btn" onclick="nextProcess(this)">Select Columns</button>
+        </div>
     </footer>    
     <script type="text/javascript" src="scripts/script.js"></script>
     <script type="text/javascript" src="/eel.js"></script>

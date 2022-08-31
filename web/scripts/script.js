@@ -407,9 +407,13 @@ function clearInvalidEntries(){
   }
 }
 
+// Hide process data input check box on startup
+$(".process-data-check").hide();
+
 // footer button
 function nextProcess(el){
   if (el.textContent === 'Select Columns'){
+    $(".process-data-check").show();
     document.getElementById("all-columns-container").innerHTML = "";
     $("#output-screen").hide();
     clearInvalidEntries();
