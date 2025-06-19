@@ -1,1 +1,7 @@
 /venv
+output.csv
+.gitignore
+.gitignore
+.gitignore
+web/.DS_Store
+weather.csv
