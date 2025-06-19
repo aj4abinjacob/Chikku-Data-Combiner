@@ -1,5 +1,4 @@
 from glob import glob
-import os
 from tkinter import filedialog
 import pandas as pd
 import eel
@@ -7,16 +6,39 @@ from tkinter.filedialog import asksaveasfilename
 from tkinter.filedialog import askopenfilenames
 from tkinter import Tk
 import webbrowser
+from typing import Union
+import platform
+import os
+import subprocess
 
 eel.init('web')
 try:
-    eel.start("main.html", block=False, size=[1680,1050], cmdline_args=["--disable-plugins"])
+    eel.start("main.html", block=False, size=(1680,1050), cmdline_args=["--disable-plugins"])
 except:
     eel.start("main.html", mode="default", block=False)
 
 
+def open_file_with_default_app(filepath):
+    """
+    Opens a file with the default application of the operating system.
 
-def readSampleDf(file):
+    Args:
+        filepath (str): The path to the file you want to open.
+    """
+    try:
+        if platform.system() == "Windows": 
+            os.startfile(filepath) #startfile will only work in windows
+        elif platform.system() == "Darwin":  # macOS
+            subprocess.call(('open', filepath))
+        else:  # Linux and other Unix-like systems
+            subprocess.call(('xdg-open', filepath))
+        print(f"Successfully opened '{filepath}' with the default application.")
+    except Exception as e:
+        print(f"Error opening '{filepath}': {e}")
+
+
+def read_sample_df(file: str) -> Union[pd.DataFrame, None]:
+    df = None
     if file.endswith(".csv") or file.endswith(".tsv"):
         df = pd.read_csv(file, low_memory=False, nrows=10)
     elif file.endswith(".xlsx") or file.endswith(".xls"):
@@ -24,7 +46,8 @@ def readSampleDf(file):
     return df
 
 
-def readDf(file):
+def read_df(file: str) -> Union[pd.DataFrame, None]:
+    df = None
     if file.endswith(".csv") or file.endswith(".tsv"):
         df = pd.read_csv(file, low_memory=False)
     elif file.endswith(".xlsx") or file.endswith(".xls"):
@@ -34,7 +57,8 @@ def readDf(file):
 
 @eel.expose
 def fileOpen(file_path):
-    os.startfile(file_path.rstrip("Open File"))
+    file_path = file_path.rstrip("Open File")
+    open_file_with_default_app(file_path)
     return "File Opened"
 
 
@@ -65,7 +89,7 @@ def getFiles(get_folder="False"):
     extensions = ["csv", "tsv", "xlsx", "xls"]
     file_names = list(filter(lambda x: x.split(
         ".")[-1] in extensions, file_names))
-    file_names = {file_name: readSampleDf(
+    file_names = {file_name: read_sample_df(
         file_name).columns.to_list() for file_name in file_names}
     return file_names
 
@@ -90,11 +114,12 @@ def combineFiles(file_col_inp):
     file = file_col_inp[0]
     rename_keys = columnCleansing(file_col_inp[1])
     df = readDf(file)
-    df = df[list(set(df.columns.tolist()) & (set(rename_keys.keys())))].copy()
-    df = df.rename(columns=rename_keys).copy()
-    all_files.append(df)
-    return f"Transforming {file}"
-
+    if isinstance(df, pd.DataFrame):
+        df = df[list(set(df.columns.tolist()) & (set(rename_keys.keys())))].copy()
+        df = df.rename(columns=rename_keys).copy()
+        all_files.append(df)
+        return f"Transforming {file}"
+    return f"Can't read file : {file}"
 
 @eel.expose
 def finalCombine():
