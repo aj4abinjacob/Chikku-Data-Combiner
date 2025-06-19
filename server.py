@@ -113,7 +113,7 @@ def clearList():
 def combineFiles(file_col_inp):
     file = file_col_inp[0]
     rename_keys = columnCleansing(file_col_inp[1])
-    df = readDf(file)
+    df = read_df(file)
     if isinstance(df, pd.DataFrame):
         df = df[list(set(df.columns.tolist()) & (set(rename_keys.keys())))].copy()
         df = df.rename(columns=rename_keys).copy()
